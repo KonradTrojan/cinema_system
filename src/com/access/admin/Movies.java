@@ -1,28 +1,52 @@
 package com.access.admin;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public abstract class Movies {
-    Statement stmt;
-    Connection con;
 
-    private void openDataBase(){
-        String url = "jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa";
-        String user = "w5NtVBqSWa";
-        String password = "F6mKAri9L0";
 
+    public static String getTitle(int id) {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            this.con = DriverManager.getConnection(
-                    url, user, password);
-
-            this.stmt = con.createStatement();
-
-        } catch (Exception e) {
-            System.out.println(e);
+            ResultSet rs = DBConn.execute("SELECT title FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getString("title");
+            } else return null;
+        }catch (Exception e){
+            e.printStackTrace();
         }
+        return null;
     }
-    private void closeDataBase() throws SQLException {
-        con.close();
+
+    public static ArrayList<String> getTitles(){
+        try {
+            ResultSet rs = DBConn.execute("SELECT title FROM movies");
+            ArrayList<String> movies = new ArrayList<>();
+            while (rs.next()) {
+                movies.add(rs.getString("title"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
+
+    public static String getLength(int id) {
+        try {
+            ResultSet rs = DBConn.execute("SELECT length FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getString("length");
+            } else return null;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public static void main(String[] args) throws SQLException {
+        System.out.println(Movies.getTitle(1));
+    }
+
 }
