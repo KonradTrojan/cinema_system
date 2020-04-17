@@ -3,7 +3,7 @@ package com.access.admin;
 import java.sql.*;
 
 public class DBConn {
-    public static ResultSet execute (String query) {
+    public static ResultSet execute(String query) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection(
