@@ -2,7 +2,7 @@ package com.access.admin;
 
 import java.sql.ResultSet;
 
-public class Showing {
+public class Showings {
     int getRoomId(int id) {
         try {
             ResultSet rs = DBConn.execute("SELECT idRoom FROM filmScreenings WHERE idScreenings="+id);
