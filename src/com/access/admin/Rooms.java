@@ -1,6 +1,7 @@
 package com.access.admin;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class Rooms {
     public static int getNumOfSeats(int id) {
@@ -26,4 +27,6 @@ public class Rooms {
         }
         return 0;
     }
+
+
 }
