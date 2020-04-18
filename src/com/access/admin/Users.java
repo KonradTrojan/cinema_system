@@ -2,7 +2,7 @@ package com.access.admin;
 
 import java.sql.ResultSet;
 
-public class Users {
+public abstract class Users {
     public static String getName(int id) {
         try {
             ResultSet rs = DBConn.execute("SELECT name FROM users WHERE idUser=" + id);
