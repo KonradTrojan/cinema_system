@@ -3,7 +3,7 @@ package com.access.admin;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Rooms {
+public abstract class Rooms {
     public static int getNumOfSeats(int id) {
         try {
             ResultSet rs = DBConn.execute("SELECT numOfSeats FROM rooms WHERE idRooms=" + id);

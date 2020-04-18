@@ -5,12 +5,47 @@ import java.util.ArrayList;
 
 public abstract class Movies {
 
-
     public static String getTitle(int id) {
         try {
             ResultSet rs = DBConn.execute("SELECT title FROM movies WHERE idMovie=" + id);
             if (rs.next()) {
                 return rs.getString("title");
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getDirector(int id) {
+        try {
+            ResultSet rs = DBConn.execute("SELECT director FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getString("director");
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getDescription(int id) {
+        try {
+            ResultSet rs = DBConn.execute("SELECT description FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getString("description");
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getPoster(int id) { //TODO
+        try {
+            ResultSet rs = DBConn.execute("SELECT poster FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getString("poster");
             } else return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,6 +76,21 @@ public abstract class Movies {
             e.printStackTrace();
         }
         return null;
+    }
+    public static ArrayList <Integer> getAllMovies() {
+        ArrayList <Integer> x = new ArrayList<Integer>();
+        try {
+            ResultSet rs = DBConn.execute("SELECT idMovie FROM movies");
+            if (rs.next()) {
+                x.add(rs.getInt("idMovie"));
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+    public static int getNumberOfMovies() {
+        return getAllMovies().size();
     }
 
 
