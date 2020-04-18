@@ -3,6 +3,9 @@ package com.access.admin;
 import java.sql.*;
 
 public class DBConn {
+    public DBConn() throws SQLException {
+    }
+
     public static ResultSet execute(String query) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -21,6 +24,7 @@ public class DBConn {
         }
         return null;
     }
+
     public static void update(String query) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -38,20 +42,27 @@ public class DBConn {
 
     }
 
-    public static Connection getConnection() {
+    public static Connection con;
+
+    static {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection con = DriverManager.getConnection(
+            con = DriverManager.getConnection(
                     "jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa",
                     "w5NtVBqSWa",
                     "F6mKAri9L0");
-
-            return con;
-
-        } catch (Exception e) {
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return null;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         }
+    }
+    //wtf nie wiem o co chodzi ale dziala i jest duzo szybsze
+
+    public static Connection getConnection() {
+        return con;
 
     }
 }

@@ -1,6 +1,7 @@
 package com.access.admin;
 
-import java.awt.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,10 +13,15 @@ public abstract class Movies {
 
     public static String getTitle(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT title FROM movies WHERE idMovie=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT title FROM movies WHERE idMovie=" + id);
+            String title = null;
             if (rs.next()) {
-                return rs.getString("title");
-            } else return null;
+                title = rs.getString("title");
+            }
+            stmt.close();
+            return title;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -24,10 +30,15 @@ public abstract class Movies {
 
     public static String getDirector(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT director FROM movies WHERE idMovie=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT director FROM movies WHERE idMovie=" + id);
+            String director = null;
             if (rs.next()) {
-                return rs.getString("director");
-            } else return null;
+                director = rs.getString("director");
+            }
+            stmt.close();
+            return director;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,22 +47,32 @@ public abstract class Movies {
 
     public static String getDescription(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT description FROM movies WHERE idMovie=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT description FROM movies WHERE idMovie=" + id);
+            String description = null;
             if (rs.next()) {
-                return rs.getString("description");
-            } else return null;
+                description = rs.getString("description");
+            }
+            stmt.close();
+            return description;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static String getPoster(int id) { //TODO
+    public static BufferedImage getPoster(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT poster FROM movies WHERE idMovie=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT poster FROM movies WHERE idMovie=" + id);
+            BufferedImage poster = null;
             if (rs.next()) {
-                return rs.getString("poster");
-            } else return null;
+                poster = ImageIO.read(rs.getBinaryStream("poster"));
+            }
+            stmt.close();
+            return poster;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,26 +104,31 @@ public abstract class Movies {
         }
         return null;
     }
-    public static ArrayList <Integer> getAllMovies() {
-        ArrayList <Integer> x = new ArrayList<Integer>();
+
+    public static ArrayList<Integer> getAllMovies() {
+        ArrayList<Integer> x = new ArrayList<Integer>();
         try {
-            ResultSet rs = DBConn.execute("SELECT idMovie FROM movies");
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idMovie FROM movies");
             while (rs.next()) {
                 x.add(rs.getInt("idMovie"));
             }
+            stmt.close();
             return x;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return x;
     }
+
     public static int getNumberOfMovies() {
         return getAllMovies().size();
     }
 
     public static void addMovie(String title, String description,
                                 int length, String director, String writer,
-                                String stars, String ageCategory, File poster){
+                                String stars, String ageCategory, File poster) {
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -117,13 +143,13 @@ public abstract class Movies {
                     "values(?,?,?,?,?,?,?,?)");
 
             statement.setString(1, title);
-            statement.setInt(2, length );
+            statement.setInt(2, length);
             statement.setString(3, description);
             statement.setString(4, director);
             statement.setString(5, writer);
             statement.setString(6, ageCategory);
             statement.setString(7, stars);
-            statement.setBinaryStream(8, (InputStream) inputStream, (int)(poster.length()));
+            statement.setBinaryStream(8, (InputStream) inputStream, (int) (poster.length()));
 
             statement.executeUpdate();
 
@@ -141,10 +167,9 @@ public abstract class Movies {
     }
 
 
-
     public static void main(String[] args) throws SQLException {
 
-        for (String title : getTitles()){
+        for (String title : getTitles()) {
             System.out.println(title);
         }
         System.out.println(Movies.getTitles());
