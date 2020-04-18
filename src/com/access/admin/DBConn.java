@@ -21,4 +21,20 @@ public class DBConn {
         }
         return null;
     }
+    public static void update(String query) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa",
+                    "w5NtVBqSWa",
+                    "F6mKAri9L0");
+
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

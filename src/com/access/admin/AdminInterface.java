@@ -2,6 +2,8 @@ package com.access.admin;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -41,6 +43,13 @@ public class AdminInterface extends JFrame {
         refresh();
 
 
+        addMovieButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddMovie addMovie = new AddMovie();
+                addMovie.setVisible(true);
+            }
+        });
     }
 
     public static void main(String[] args) {

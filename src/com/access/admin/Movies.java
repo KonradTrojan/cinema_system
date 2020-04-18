@@ -94,6 +94,18 @@ public abstract class Movies {
         return getAllMovies().size();
     }
 
+    public static void addMovie(String title, String description,
+                                int length, String director, String writer,
+                                String stars, String ageCategory){
+
+        DBConn.update("INSERT INTO movies (title,length,description,director, " +
+                "writer, ageCategory,stars, poster) VALUES ('"+ title+"','"+length+"','"+
+                description+"','"+director+"','"+writer+"','"+ageCategory+"','"+stars+"','21');");
+        // jescze trzeba zaimplementować dodawanie plakatu
+
+
+    }
+
 
     public static void main(String[] args) throws SQLException {
 
