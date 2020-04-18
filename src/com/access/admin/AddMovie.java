@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 public class AddMovie extends JFrame{
 
@@ -59,13 +60,17 @@ public class AddMovie extends JFrame{
             @Override
 
             public void actionPerformed(ActionEvent e) {
-                if(titleJTXT.getText().equals("") || descJTXT.getText().equals("") || descJTXT.getText().equals("") ||
+                if (titleJTXT.getText().equals("") || descJTXT.getText().equals("") || descJTXT.getText().equals("") ||
                         ageCatJTXT.getText().equals("") || writJTXT.getText().equals("") || starsJTXT.getText().equals("")) {
 
                     JOptionPane.showMessageDialog(new JFrame(), "Nie wszystkie pola zostały wypełnione", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
 
-                }else if(lengJTXT.getText() != null){
+                } else if(Objects.requireNonNull(Movies.getTitles()).contains(titleJTXT.getText())) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Istnieje film o takim tytule.", "Błąd",
+                            JOptionPane.ERROR_MESSAGE);
+
+                } else if (lengJTXT.getText() != null) {
                     try {
                         Double.parseDouble(lengJTXT.getText());
                     } catch (NumberFormatException nfe) {
@@ -73,10 +78,17 @@ public class AddMovie extends JFrame{
                                 JOptionPane.ERROR_MESSAGE);
                     }
 
-                }else if (selectedPoster == null) {
-
-                    JOptionPane.showMessageDialog(new JFrame(), "Plik plakatu nie został wczytany pomyślnie","Błąd",
+                } else if (selectedPoster == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Plik plakatu nie został wczytany pomyślnie", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
+
+                }else if (!lengJTXT.getText().equals("")) {
+                    try {
+                        Double.parseDouble(lengJTXT.getText());
+                    } catch (NumberFormatException nfe) {
+                        JOptionPane.showMessageDialog(new JFrame(), "Długość filmu musi być liczbą całkowitą", "Błąd",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }else {
                     String title = titleJTXT.getText();
                     String description = descJTXT.getText();
@@ -92,7 +104,6 @@ public class AddMovie extends JFrame{
                     else
                         poster = new File("src/com/access/admin/image/brak.png"); //default poster
 
-
                     Movies.addMovie(title, description, length, director, writer, stars, ageCategory, poster);
 
                     JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.","Błąd",
@@ -101,7 +112,6 @@ public class AddMovie extends JFrame{
                 }
             }
         });
-
 
         addPosterButt.addActionListener(new ActionListener() {
             @Override
@@ -116,11 +126,9 @@ public class AddMovie extends JFrame{
                 JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
                 int returnValue = jfc.showOpenDialog(null);
-                // int returnValue = jfc.showSaveDialog(null);
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedPoster = jfc.getSelectedFile();
-
                 }
             }
         });

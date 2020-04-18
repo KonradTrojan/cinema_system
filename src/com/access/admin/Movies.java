@@ -165,6 +165,28 @@ public abstract class Movies {
             }
         }
     }
+    public static void deleteMovie(String deletedTitle){
+        Connection connection = DBConn.getConnection();
+        PreparedStatement statement = null;
+        String sql_ = "DELETE FROM movies WHERE title =? ";
+
+        try {
+            statement = connection.prepareStatement(sql_);
+            statement.setString(1,deletedTitle);
+
+            statement.executeUpdate();
+
+        }catch (SQLException ek) {
+            System.out.println("SQLException: - " + ek);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException el) {
+                System.out.println("SQLException Finally: - " + el);
+            }
+        }
+
+    }
 
 
     public static void main(String[] args) throws SQLException {
@@ -175,16 +197,5 @@ public abstract class Movies {
         System.out.println(Movies.getTitles());
     }
 
-    public String toString(int id) {
 
-        try {
-            ResultSet rs = DBConn.execute("SELECT title FROM movies WHERE idMovie=" + id);
-            if (rs.next()) {
-                return rs.getString("title");
-            } else return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

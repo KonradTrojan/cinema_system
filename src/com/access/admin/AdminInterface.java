@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -51,6 +52,18 @@ public class AdminInterface extends JFrame {
                 addMovie.setVisible(true);
             }
         });
+        removeMovieButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = moviesComBox.getSelectedIndex();
+                String selectedTitle = (String) moviesComBox.getItemAt(selectedIndex);
+
+
+                Movies.deleteMovie(selectedTitle);
+                refresh();
+
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -69,8 +82,9 @@ public class AdminInterface extends JFrame {
     }
 
     public void fillComboBox() {
-        for (Integer i : Objects.requireNonNull(Movies.getAllMovies())){
-            moviesComBox.addItem(i);
+        moviesComBox.removeAllItems();
+        for (String title : Movies.getTitles()){
+            moviesComBox.addItem(title);
         }
     }
 
