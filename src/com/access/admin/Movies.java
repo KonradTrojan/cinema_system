@@ -87,9 +87,10 @@ public abstract class Movies {
         ArrayList <Integer> x = new ArrayList<Integer>();
         try {
             ResultSet rs = DBConn.execute("SELECT idMovie FROM movies");
-            if (rs.next()) {
+            while (rs.next()) {
                 x.add(rs.getInt("idMovie"));
-            } else return null;
+            }
+            return x;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,9 +138,8 @@ public abstract class Movies {
                 System.out.println("SQLException Finally: - " + el);
             }
         }
-
-
     }
+
 
 
     public static void main(String[] args) throws SQLException {
@@ -150,4 +150,16 @@ public abstract class Movies {
         System.out.println(Movies.getTitles());
     }
 
+    public String toString(int id) {
+
+        try {
+            ResultSet rs = DBConn.execute("SELECT title FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getString("title");
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

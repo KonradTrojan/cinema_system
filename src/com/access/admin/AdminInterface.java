@@ -69,8 +69,8 @@ public class AdminInterface extends JFrame {
     }
 
     public void fillComboBox() {
-        for (String title : Objects.requireNonNull(Movies.getTitles())){
-            moviesComBox.addItem(title);
+        for (Integer i : Objects.requireNonNull(Movies.getAllMovies())){
+            moviesComBox.addItem(i);
         }
     }
 
