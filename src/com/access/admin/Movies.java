@@ -60,6 +60,7 @@ public abstract class Movies {
             while (rs.next()) {
                 movies.add(rs.getString("title"));
             }
+            return movies;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +96,11 @@ public abstract class Movies {
 
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(Movies.getTitle(1));
+
+        for (String title : getTitles()){
+            System.out.println(title);
+        }
+        System.out.println(Movies.getTitles());
     }
 
 }
