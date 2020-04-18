@@ -64,41 +64,10 @@ public class AddMovie extends JFrame{
                 String stars = starsJTXT.getText();
                 int length = Integer.parseInt(lengJTXT.getText());
 
-                Connection connection = null;
-                PreparedStatement statement = null;
-                FileInputStream inputStream = null;
-                try {
+                File poster = new File("src/com/access/admin/image/brak.png"); //default poster
 
-                    File image = new File("src/com/access/admin/image/brak.png");
-                    inputStream = new FileInputStream(image);
-                    connection = DBConn.getConnection();
+                Movies.addMovie(title,description,length,director,writer,stars,ageCategory,poster);
 
-                    statement = connection.prepareStatement("insert into movies (title, " +
-                            "length," + "description,director,writer,ageCategory,stars,poster) " +
-                            "values(?,?,?,?,?,?,?,?)");
-
-                    statement.setString(1, title);
-                    statement.setInt(2, length );
-                    statement.setString(3, description);
-                    statement.setString(4, director);
-                    statement.setString(5, writer);
-                    statement.setString(6, ageCategory);
-                    statement.setString(7, stars);
-                    statement.setBinaryStream(8, (InputStream) inputStream, (int)(image.length()));
-
-                    statement.executeUpdate();
-
-                } catch (FileNotFoundException ee) {
-                    System.out.println("FileNotFoundException: - " + ee);
-                } catch (SQLException ek) {
-                    System.out.println("SQLException: - " + ek);
-                } finally {
-                    try {
-                        statement.close();
-                    } catch (SQLException el) {
-                        System.out.println("SQLException Finally: - " + el);
-                    }
-                }
             }
         });
 
