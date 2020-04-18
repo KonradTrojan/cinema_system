@@ -1,5 +1,6 @@
 package com.access.admin;
 
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -96,11 +97,11 @@ public abstract class Movies {
 
     public static void addMovie(String title, String description,
                                 int length, String director, String writer,
-                                String stars, String ageCategory){
+                                String stars, String ageCategory, FileInputStream poster){
 
         DBConn.update("INSERT INTO movies (title,length,description,director, " +
                 "writer, ageCategory,stars, poster) VALUES ('"+ title+"','"+length+"','"+
-                description+"','"+director+"','"+writer+"','"+ageCategory+"','"+stars+"','21');");
+                description+"','"+director+"','"+writer+"','"+ageCategory+"','"+stars+"','"+poster+"');");
         // jescze trzeba zaimplementować dodawanie plakatu
 
 

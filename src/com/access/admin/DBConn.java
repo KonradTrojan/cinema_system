@@ -37,4 +37,21 @@ public class DBConn {
         }
 
     }
+
+    public static Connection getConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa",
+                    "w5NtVBqSWa",
+                    "F6mKAri9L0");
+
+            return con;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }

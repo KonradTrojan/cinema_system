@@ -47,6 +47,7 @@ public class AdminInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddMovie addMovie = new AddMovie();
+                setVisible(false);
                 addMovie.setVisible(true);
             }
         });
