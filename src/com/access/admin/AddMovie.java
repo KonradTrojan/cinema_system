@@ -1,6 +1,7 @@
 package com.access.admin;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +37,9 @@ public class AddMovie extends JFrame{
     private JTextField starsJTXT;
     private JPanel mainAddMovJP;
     private JTextField ageCatJTXT;
-    private JTextField textField1;
+    private JButton addPosterButt;
+    private JFileChooser jFileChooser;
+    private File selectedPoster = null;
 
     public AddMovie()  {
 
@@ -50,7 +53,6 @@ public class AddMovie extends JFrame{
 
         pack();
         setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         addMovieJButt.addActionListener(new ActionListener() {
@@ -64,7 +66,12 @@ public class AddMovie extends JFrame{
                 String stars = starsJTXT.getText();
                 int length = Integer.parseInt(lengJTXT.getText());
 
-                File poster = new File("src/com/access/admin/image/brak.png"); //default poster
+                File poster;
+                if (selectedPoster != null)
+                    poster = selectedPoster;
+                else
+                    poster = new File("src/com/access/admin/image/brak.png"); //default poster
+
 
                 Movies.addMovie(title,description,length,director,writer,stars,ageCategory,poster);
 
@@ -72,6 +79,47 @@ public class AddMovie extends JFrame{
         });
 
 
+        addPosterButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        addPosterButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+                int returnValue = jfc.showOpenDialog(null);
+                // int returnValue = jfc.showSaveDialog(null);
+
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    selectedPoster = jfc.getSelectedFile();
+
+                }
+            }
+        });
+        clearJButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                titleJTXT.setText("");
+                lengJTXT.setText("");
+                dirJTXT.setText("");
+                descJTXT.setText("");
+                writJTXT.setText("");
+                starsJTXT.setText("");
+                ageCatJTXT.setText("");
+
+                selectedPoster = null;
+            }
+        });
+        cancJButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -85,5 +133,7 @@ public class AddMovie extends JFrame{
         }
 
         System.out.println(inputStream);
+
+
     }
 }

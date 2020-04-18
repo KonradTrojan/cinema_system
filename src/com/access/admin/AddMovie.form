@@ -168,13 +168,13 @@
           <text value="Plakat"/>
         </properties>
       </component>
-      <component id="b5393" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="5afc0" class="javax.swing.JButton" binding="addPosterButt">
         <constraints>
-          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
+          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="Dodaj plakat"/>
+        </properties>
       </component>
     </children>
   </grid>
