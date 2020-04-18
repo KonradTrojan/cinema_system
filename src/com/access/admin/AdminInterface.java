@@ -58,9 +58,18 @@ public class AdminInterface extends JFrame {
                 int selectedIndex = moviesComBox.getSelectedIndex();
                 String selectedTitle = (String) moviesComBox.getItemAt(selectedIndex);
 
+                int i = okcancel("Czy na pewno chcesz usunąć film z bazy danych? ");
 
-                Movies.deleteMovie(selectedTitle);
+                if(i == 0)
+                    Movies.deleteMovie(selectedTitle);
+
                 refresh();
+
+            }
+        });
+        editMovieButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
             }
         });
@@ -73,6 +82,9 @@ public class AdminInterface extends JFrame {
             AdminInterface frame = new AdminInterface();
             frame.setContentPane(new AdminInterface().mainJP);
             frame.setVisible(true);
+
+
+
 
         });
     }
@@ -87,5 +99,13 @@ public class AdminInterface extends JFrame {
             moviesComBox.addItem(title);
         }
     }
+
+    public static int okcancel(String theMessage) {
+        int result = JOptionPane.showConfirmDialog((Component) null, theMessage,
+                "alert", JOptionPane.OK_CANCEL_OPTION);
+        return result;
+    }
+
+
 
 }
