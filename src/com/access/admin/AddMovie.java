@@ -57,24 +57,42 @@ public class AddMovie extends JFrame{
 
         addMovieJButt.addActionListener(new ActionListener() {
             @Override
+
             public void actionPerformed(ActionEvent e) {
-                String title = titleJTXT.getText();
-                String description = descJTXT.getText();
-                String director = dirJTXT.getText();
-                String ageCategory = ageCatJTXT.getText();
-                String writer = writJTXT.getText();
-                String stars = starsJTXT.getText();
-                int length = Integer.parseInt(lengJTXT.getText());
+                if(titleJTXT.getText().equals("") || descJTXT.getText().equals("") || descJTXT.getText().equals("") ||
+                        ageCatJTXT.getText().equals("") || writJTXT.getText().equals("") || starsJTXT.getText().equals("") ||
+                        lengJTXT.getText().equals("")) {
 
-                File poster;
-                if (selectedPoster != null)
-                    poster = selectedPoster;
-                else
-                    poster = new File("src/com/access/admin/image/brak.png"); //default poster
+                    JOptionPane.showMessageDialog(new JFrame(), "Nie wszystkie pola zostały wypełnione","Błąd",
+                            JOptionPane.ERROR_MESSAGE);
 
 
-                Movies.addMovie(title,description,length,director,writer,stars,ageCategory,poster);
+                }else if (selectedPoster == null) {
 
+                    JOptionPane.showMessageDialog(new JFrame(), "Plik plakatu nie został wczytany pomyślnie","Błąd",
+                            JOptionPane.ERROR_MESSAGE);
+                }else {
+                    String title = titleJTXT.getText();
+                    String description = descJTXT.getText();
+                    String director = descJTXT.getText();
+                    String ageCategory = ageCatJTXT.getText();
+                    String writer = writJTXT.getText();
+                    String stars = starsJTXT.getText();
+                    int length = Integer.parseInt(lengJTXT.getText());
+
+                    File poster;
+                    if (selectedPoster != null)
+                        poster = selectedPoster;
+                    else
+                        poster = new File("src/com/access/admin/image/brak.png"); //default poster
+
+
+                    Movies.addMovie(title, description, length, director, writer, stars, ageCategory, poster);
+
+                    JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.","Błąd",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
             }
         });
 
