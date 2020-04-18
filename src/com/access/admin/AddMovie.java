@@ -60,12 +60,18 @@ public class AddMovie extends JFrame{
 
             public void actionPerformed(ActionEvent e) {
                 if(titleJTXT.getText().equals("") || descJTXT.getText().equals("") || descJTXT.getText().equals("") ||
-                        ageCatJTXT.getText().equals("") || writJTXT.getText().equals("") || starsJTXT.getText().equals("") ||
-                        lengJTXT.getText().equals("")) {
+                        ageCatJTXT.getText().equals("") || writJTXT.getText().equals("") || starsJTXT.getText().equals("")) {
 
-                    JOptionPane.showMessageDialog(new JFrame(), "Nie wszystkie pola zostały wypełnione","Błąd",
+                    JOptionPane.showMessageDialog(new JFrame(), "Nie wszystkie pola zostały wypełnione", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
 
+                }else if(lengJTXT.getText() != null){
+                    try {
+                        Double.parseDouble(lengJTXT.getText());
+                    } catch (NumberFormatException nfe) {
+                        JOptionPane.showMessageDialog(new JFrame(), "Długość filmu musi być liczbą całkowitą", "Błąd",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
 
                 }else if (selectedPoster == null) {
 
