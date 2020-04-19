@@ -70,55 +70,45 @@ public class AddMovie extends JFrame{
                     JOptionPane.showMessageDialog(new JFrame(), "Istnieje film o takim tytule.", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
 
-                } else if (lengJTXT.getText() != null) {
-                    try {
-                        Double.parseDouble(lengJTXT.getText());
-                    } catch (NumberFormatException nfe) {
-                        JOptionPane.showMessageDialog(new JFrame(), "Długość filmu musi być liczbą całkowitą", "Błąd",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-
                 } else if (selectedPoster == null) {
                     JOptionPane.showMessageDialog(new JFrame(), "Plik plakatu nie został wczytany pomyślnie", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
 
-                }else if (!lengJTXT.getText().equals("")) {
+                }else {
+
+                    boolean helperLengthIsInt;
                     try {
                         Double.parseDouble(lengJTXT.getText());
+                        helperLengthIsInt = true;
                     } catch (NumberFormatException nfe) {
                         JOptionPane.showMessageDialog(new JFrame(), "Długość filmu musi być liczbą całkowitą", "Błąd",
                                 JOptionPane.ERROR_MESSAGE);
+                        helperLengthIsInt = false;
                     }
-                }else {
-                    String title = titleJTXT.getText();
-                    String description = descJTXT.getText();
-                    String director = descJTXT.getText();
-                    String ageCategory = ageCatJTXT.getText();
-                    String writer = writJTXT.getText();
-                    String stars = starsJTXT.getText();
-                    int length = Integer.parseInt(lengJTXT.getText());
+                    if(helperLengthIsInt) {
+                        String title = titleJTXT.getText();
+                        String description = descJTXT.getText();
+                        String director = dirJTXT.getText();
+                        String ageCategory = ageCatJTXT.getText();
+                        String writer = writJTXT.getText();
+                        String stars = starsJTXT.getText();
+                        int length = Integer.parseInt(lengJTXT.getText());
 
-                    File poster;
-                    if (selectedPoster != null)
-                        poster = selectedPoster;
-                    else
-                        poster = new File("src/com/access/admin/image/brak.png"); //default poster
+                        File poster;
+                        if (selectedPoster != null)
+                            poster = selectedPoster;
+                        else
+                            poster = new File("src/com/access/admin/image/brak.png"); //default poster
 
-                    Movies.addMovie(title, description, length, director, writer, stars, ageCategory, poster);
+                        Movies.addMovie(title, description, length, director, writer, stars, ageCategory, poster);
 
-                    JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.","Błąd",
-                            JOptionPane.INFORMATION_MESSAGE);
-
+                        JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Błąd",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
         });
 
-        addPosterButt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         addPosterButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
