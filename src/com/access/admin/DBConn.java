@@ -2,7 +2,7 @@ package com.access.admin;
 
 import java.sql.*;
 
-public class DBConn {
+public abstract class DBConn {
     public DBConn() throws SQLException {
     }
 
@@ -39,7 +39,6 @@ public class DBConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static Connection con;
@@ -63,6 +62,5 @@ public class DBConn {
 
     public static Connection getConnection() {
         return con;
-
     }
 }

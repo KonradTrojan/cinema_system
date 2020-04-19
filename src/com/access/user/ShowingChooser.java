@@ -7,9 +7,7 @@ import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
-import de.jaret.util.ui.timebars.model.TimeBarModel;
 import de.jaret.util.ui.timebars.swing.TimeBarViewer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ public class ShowingChooser {
         draw();
     }
 
-    int movieId;
+    private int movieId;
 
     private void draw() {
         JFrame f = new JFrame("Wybór seansu");
