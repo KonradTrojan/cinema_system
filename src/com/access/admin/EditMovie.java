@@ -69,33 +69,37 @@ public class EditMovie extends JFrame {
                     JOptionPane.showMessageDialog(new JFrame(), "Plik plakatu nie został wczytany pomyślnie", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
 
-                }else if (lengJTXT.getText().equals("")) {
+                }else {
+                    boolean helper;
                     try {
                         Double.parseDouble(lengJTXT.getText());
+                        helper = true;
                     } catch (NumberFormatException nfe) {
                         JOptionPane.showMessageDialog(new JFrame(), "Długość filmu musi być liczbą całkowitą", "Błąd",
                                 JOptionPane.ERROR_MESSAGE);
+                        helper = false;
+
                     }
-                }else {
-                    String title = titleJTXT.getText();
-                    String description = descrJTXT.getText();
-                    String director = dirJTXT.getText();
-                    String ageCategory = ageCatJTXT.getText();
-                    String writer = wriJTXT.getText();
-                    String stars = starsJTXT.getText();
-                    int length = Integer.parseInt(lengJTXT.getText());
+                    if (helper) {
+                        String title = titleJTXT.getText();
+                        String description = descrJTXT.getText();
+                        String director = dirJTXT.getText();
+                        String ageCategory = ageCatJTXT.getText();
+                        String writer = wriJTXT.getText();
+                        String stars = starsJTXT.getText();
+                        int length = Integer.parseInt(lengJTXT.getText());
 
 
-                    File poster;
-                    if (selectedPoster != null) {
-                        poster = selectedPoster;
-                        Movies.editMovie(idMovie, title, description, length, director, writer, stars, ageCategory, poster);
-                    }else
-                        Movies.editMovie(idMovie,title, description, length, director, writer, stars, ageCategory);
+                        File poster;
+                        if (selectedPoster != null) {
+                            poster = selectedPoster;
+                            Movies.editMovie(idMovie, title, description, length, director, writer, stars, ageCategory, poster);
+                        } else
+                            Movies.editMovie(idMovie, title, description, length, director, writer, stars, ageCategory);
 
-                    JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.","Błąd",
-                            JOptionPane.INFORMATION_MESSAGE);
-
+                        JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Błąd",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
         });

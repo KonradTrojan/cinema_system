@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EditRoom extends JFrame{
-
+public class AddRoom extends JFrame{
     private static final int DEFAULT_WIDTH = 805;
     private static final int DEFAULT_HEIGHT = 500;
 
@@ -15,18 +14,17 @@ public class EditRoom extends JFrame{
     int screenWidth = screenSize.width;
     int screenHeight = screenSize.height;
 
-    private JPanel mainEditRoomJP;
-    private JButton confButt;
-    private JButton anulujButton;
+    private JPanel mainAddRoomJP;
+    private JButton addRoomButt;
+    private JButton cancButt;
+    private JButton clearButt;
     private JTextField idRoomJTXT;
     private JTextField numRowsJTXT;
-    private JTextField numSeatJTXT;
+    private JTextField numSeatsJTXT;
 
-    private int idSelectedRoom;
+    public AddRoom() {
 
-    public EditRoom(Integer idRoom){
-        this.idSelectedRoom = idRoom;
-        setContentPane(mainEditRoomJP);
+        setContentPane(mainAddRoomJP);
 
         setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
                 screenHeight/2 - DEFAULT_HEIGHT/2);
@@ -37,28 +35,21 @@ public class EditRoom extends JFrame{
         pack();
         setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
 
-
-        Integer numOfRows = Rooms.getNumOfRows(idRoom);
-        Integer numOfSeats = Rooms.getNumOfSeats(idRoom);
-        idRoomJTXT.setText(idRoom.toString());
-        numRowsJTXT.setText(numOfRows.toString());
-        numSeatJTXT.setText(numOfSeats.toString());
-        anulujButton.addActionListener(new ActionListener() {
+        cancButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        confButt.addActionListener(new ActionListener() {
+        addRoomButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 boolean helperAllIsInt;
                 boolean helperThisRoomExist = true;
                 try {
                     Double.parseDouble(idRoomJTXT.getText());
                     Double.parseDouble(numRowsJTXT.getText());
-                    Double.parseDouble(numSeatJTXT.getText());
+                    Double.parseDouble(numSeatsJTXT.getText());
                     helperAllIsInt = true;
                 } catch (NumberFormatException nfe) {
                     helperAllIsInt = false;
@@ -66,7 +57,7 @@ public class EditRoom extends JFrame{
                 int newIdRoom = Integer.parseInt(idRoomJTXT.getText());
 
                 for (int id : Rooms.getAllRooms()) {
-                    if (id == newIdRoom && newIdRoom != idSelectedRoom)
+                    if (id == newIdRoom)
                         helperThisRoomExist = false;
                 }
 
@@ -77,10 +68,18 @@ public class EditRoom extends JFrame{
                     JOptionPane.showMessageDialog(new JFrame(), "Istnieje sala o tym numerze.", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    Rooms.editRoom(idSelectedRoom, newIdRoom, Integer.parseInt(numRowsJTXT.getText()), Integer.parseInt(numSeatJTXT.getText()));
-                    JOptionPane.showMessageDialog(new JFrame(), "Zmiana została zapisana pomyślnie w bazie danych", "Komuniakt",
+                    Rooms.addRoom(newIdRoom, Integer.parseInt(numRowsJTXT.getText()), Integer.parseInt(numSeatsJTXT.getText()));
+                    JOptionPane.showMessageDialog(new JFrame(), "Sala została dodana pomyślnie do bazy danych", "Komuniakt",
                             JOptionPane.INFORMATION_MESSAGE);
                 }
+            }
+        });
+        clearButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idRoomJTXT.setText("");
+                numRowsJTXT.setText("");
+                numSeatsJTXT.setText("");
             }
         });
     }

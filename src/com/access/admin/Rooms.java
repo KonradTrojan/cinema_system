@@ -1,5 +1,8 @@
 package com.access.admin;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -78,7 +81,57 @@ public abstract class Rooms {
 
     }
 
+    public static void editRoom(int idRoom, int newIdRoom, int numOfRows, int numOfSeats){
+        Connection conn = DBConn.getConnection();
+        PreparedStatement statement = null;
 
+        String sql = "UPDATE rooms SET idRoom=?, numOfRows=?, numOfSeats=? WHERE idRoom="+idRoom;
+        try {
+            statement = conn.prepareStatement(sql);
+
+            statement.setInt(1,newIdRoom);
+            statement.setInt(2,numOfRows);
+            statement.setInt(3,numOfSeats);
+
+            statement.executeUpdate();
+        }catch (SQLException ek) {
+            System.out.println("SQLException: - " + ek);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException el) {
+                System.out.println("SQLException Finally: - " + el);
+            }
+        }
+    }
+
+    public static void addRoom(int idRoom, int numOfRows, int numOfSeats){
+
+
+        Connection connection;
+        PreparedStatement statement = null;
+        try {
+
+            connection = DBConn.getConnection();
+
+            statement = connection.prepareStatement("insert into rooms (idRoom, numOfRows, numOfSeats) " +
+                    "values(?,?,?)");
+
+            statement.setInt(1, idRoom);
+            statement.setInt(2, numOfRows);
+            statement.setInt(3, numOfSeats);
+            statement.executeUpdate();
+
+        } catch (SQLException ek) {
+            System.out.println("SQLException: - " + ek);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException el) {
+                System.out.println("SQLException Finally: - " + el);
+            }
+        }
+    }
 
 
 }

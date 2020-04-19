@@ -113,6 +113,13 @@ public class AdminInterface extends JFrame {
                 editRoom.setVisible(true);
             }
         });
+        addlRoomButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddRoom addRoom = new AddRoom();
+                addRoom.setVisible(true);
+            }
+        });
     }
 
     public static void main(String[] args) {
