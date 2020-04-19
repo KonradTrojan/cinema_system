@@ -93,6 +93,40 @@ public abstract class Movies {
         return null;
     }
 
+    public static String getStars(int id) {
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT stars FROM movies WHERE idMovie=" + id);
+            String description = null;
+            if (rs.next()) {
+                description = rs.getString("stars");
+            }
+            stmt.close();
+            return description;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getWriter(int id) {
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT writer FROM movies WHERE idMovie=" + id);
+            String description = null;
+            if (rs.next()) {
+                description = rs.getString("writer");
+            }
+            stmt.close();
+            return description;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String getLength(int id) {
         try {
             ResultSet rs = DBConn.execute("SELECT length FROM movies WHERE idMovie=" + id);
