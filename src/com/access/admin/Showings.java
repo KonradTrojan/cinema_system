@@ -47,4 +47,6 @@ public abstract class Showings {
     public static int getNumberOfShowings(int id) {
         return getAllShowings(id).size();
     }
+
+
 }

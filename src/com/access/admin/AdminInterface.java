@@ -29,6 +29,10 @@ public class AdminInterface extends JFrame {
     private JButton usuńSeansButton1;
     private JButton edytujSeansButton;
     private JButton dodajSeansButton1;
+    private JButton editRoomButt;
+    private JButton addlRoomButt;
+    private JButton deleteRoomButt;
+    private JComboBox roomsComBox;
 
     public AdminInterface() {
 
@@ -88,6 +92,12 @@ public class AdminInterface extends JFrame {
 
             }
         });
+        deleteRoomButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -105,15 +115,22 @@ public class AdminInterface extends JFrame {
     }
 
     public void refresh(){
-        fillComboBox();
+        fillComboBoxTitle();
     }
 
-    public void fillComboBox() {
+    public void fillComboBoxTitle() {
         moviesComBox.removeAllItems();
         for (String title : Movies.getTitles()){
             moviesComBox.addItem(title);
         }
+
+        roomsComBox.removeAllItems();
+        for (Integer idRoom : Rooms.getAllRooms()){
+            roomsComBox.addItem(idRoom);
+        }
     }
+
+
 
     public static int okcancel(String theMessage) {
         int result = JOptionPane.showConfirmDialog((Component) null, theMessage,
