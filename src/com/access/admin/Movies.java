@@ -127,6 +127,23 @@ public abstract class Movies {
         return null;
     }
 
+    public static String getAgeCategory(int id) {
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ageCategory FROM movies WHERE idMovie=" + id);
+            String description = null;
+            if (rs.next()) {
+                description = rs.getString("ageCategory");
+            }
+            stmt.close();
+            return description;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String getLength(int id) {
         try {
             ResultSet rs = DBConn.execute("SELECT length FROM movies WHERE idMovie=" + id);

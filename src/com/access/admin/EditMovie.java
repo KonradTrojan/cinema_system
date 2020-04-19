@@ -19,6 +19,8 @@ public class EditMovie extends JFrame {
         setContentPane(mainEditJP);
 
         titleJTXT.setText(Movies.getTitle(idMovie));
-//        starsJTXT.setText(Movies.ge);
+        starsJTXT.setText(Movies.getStars(idMovie));
+        descrJTXT.setText(Movies.getDescription(idMovie));
+        ageCatJTXT.setText(Movies.g);
     }
 }
