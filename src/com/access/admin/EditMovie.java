@@ -92,6 +92,7 @@ public class EditMovie extends JFrame {
                         Movies.editMovie(idMovie, title, description, length, director, writer, stars, ageCategory, poster);
                     }else
                         Movies.editMovie(idMovie,title, description, length, director, writer, stars, ageCategory);
+
                     JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.","Błąd",
                             JOptionPane.INFORMATION_MESSAGE);
 

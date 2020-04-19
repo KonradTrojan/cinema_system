@@ -85,17 +85,32 @@ public class AdminInterface extends JFrame {
                         EditMovie editMovie = new EditMovie(selectedIdMovie);
                         editMovie.setVisible(true);
                     }
-
                 }
-
-
-
             }
         });
+
         deleteRoomButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int selectedIndexRoomCB = roomsComBox.getSelectedIndex();
+                int selectedRoom = (int) roomsComBox.getItemAt(selectedIndexRoomCB);
+                int i = okcancel("Czy na pewno chcesz usunąć salę nr "+ selectedRoom+ " z bazy danych? ");
+
+                if (i == 0) {
+                    Rooms.deleteRoom(selectedRoom);
+                    refresh();
+                }
+            }
+        });
+        editRoomButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndexRoomCB = roomsComBox.getSelectedIndex();
+                int selectedRoom = (int) roomsComBox.getItemAt(selectedIndexRoomCB);
+
+                EditRoom editRoom = new EditRoom(selectedRoom);
+                editRoom.setVisible(true);
             }
         });
     }

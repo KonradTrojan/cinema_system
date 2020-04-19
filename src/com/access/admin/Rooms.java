@@ -1,18 +1,21 @@
 package com.access.admin;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class Rooms {
     public static int getNumOfSeats(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT numOfSeats FROM rooms WHERE idRooms=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT numOfSeats FROM rooms WHERE idRoom=" + id);
+            int numOfSeats = 0;
             if (rs.next()) {
-                return rs.getInt(2);
-            } else return 0;
-        }catch (Exception e){
+                numOfSeats = rs.getInt("numOfSeats");
+            }
+            stmt.close();
+            return numOfSeats;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
@@ -20,11 +23,16 @@ public abstract class Rooms {
 
     public static int getNumOfRows(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT numOfRows FROM rooms WHERE idRooms=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT numOfRows FROM rooms WHERE idRoom=" + id);
+            int numOfRows = 0;
             if (rs.next()) {
-                return rs.getInt(3);
-            } else return 0;
-        }catch (Exception e){
+                numOfRows = rs.getInt("numOfRows");
+            }
+            stmt.close();
+            return numOfRows;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
@@ -46,6 +54,31 @@ public abstract class Rooms {
         }
         return x;
     }
+
+    public static void deleteRoom(int idRoom){
+        Connection connection = DBConn.getConnection();
+        PreparedStatement statement = null;
+        String sql_ = "DELETE FROM rooms WHERE idRoom =? ";
+
+        try {
+            statement = connection.prepareStatement(sql_);
+            statement.setInt(1,idRoom);
+
+            statement.executeUpdate();
+
+        }catch (SQLException ek) {
+            System.out.println("SQLException: - " + ek);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException el) {
+                System.out.println("SQLException Finally: - " + el);
+            }
+        }
+
+    }
+
+
 
 
 }
