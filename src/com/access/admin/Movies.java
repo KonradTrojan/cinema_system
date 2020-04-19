@@ -238,6 +238,72 @@ public abstract class Movies {
         }
 
     }
+    // editMovie for edit with poster
+    public static void editMovie(int idMovie, String title, String description,
+                                 int length, String director, String writer,
+                                 String stars, String ageCategory, File poster){
+        Connection connection = DBConn.getConnection();
+        PreparedStatement statement = null;
+        FileInputStream inputStream = null;
+
+        String sql_ = "UPDATE movies set title=?, length=?,description=?,director=?," +
+                "writer=?,ageCategory=?,stars=?,poster=? WHERE idMovie="+idMovie;
+
+        try {
+            statement = connection.prepareStatement(sql_);
+            inputStream = new FileInputStream(poster);
+            statement.setString(1,title);
+            statement.setInt(2,length);
+            statement.setString(3,description);
+            statement.setString(4,director);
+            statement.setString(5,writer);
+            statement.setString(6,ageCategory);
+            statement.setString(7,stars);
+            statement.setBinaryStream(8, (InputStream) inputStream, (int) (poster.length()));
+            statement.executeUpdate();
+        }catch (FileNotFoundException ee) {
+            System.out.println("FileNotFoundException: - " + ee);
+        }catch (SQLException ek) {
+            System.out.println("SQLException: - " + ek);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException el) {
+                System.out.println("SQLException Finally: - " + el);
+            }
+        }
+    }
+    // editMovie for edit without poster
+    public static void editMovie(int idMovie, String title, String description,
+                                 int length, String director, String writer,
+                                 String stars, String ageCategory){
+
+        Connection connection = DBConn.getConnection();
+        PreparedStatement statement = null;
+        FileInputStream inputStream = null;
+
+        String sql_ = "UPDATE movies set title=?, length=?,description=?,director=?," +
+                "writer=?,ageCategory=?,stars=? WHERE idMovie="+idMovie;
+        try {
+            statement = connection.prepareStatement(sql_);
+            statement.setString(1,title);
+            statement.setInt(2,length);
+            statement.setString(3,description);
+            statement.setString(4,director);
+            statement.setString(5,writer);
+            statement.setString(6,ageCategory);
+            statement.setString(7,stars);
+            statement.executeUpdate();
+        }catch (SQLException ek) {
+            System.out.println("SQLException: - " + ek);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException el) {
+                System.out.println("SQLException Finally: - " + el);
+            }
+        }
+    }
 
 
     public static void main(String[] args) throws SQLException {

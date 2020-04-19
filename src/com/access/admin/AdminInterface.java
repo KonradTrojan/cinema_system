@@ -71,6 +71,21 @@ public class AdminInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int selectedIndex = moviesComBox.getSelectedIndex();
+                String selectedTitle = (String) moviesComBox.getItemAt(selectedIndex);
+                int selectedIdMovie;
+
+                for (Integer id : Movies.getAllMovies()){
+                    if (selectedTitle.equals(Movies.getTitle(id))) {
+                        selectedIdMovie = id;
+                        EditMovie editMovie = new EditMovie(selectedIdMovie);
+                        editMovie.setVisible(true);
+                    }
+
+                }
+
+
+
             }
         });
     }
