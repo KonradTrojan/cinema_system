@@ -6,7 +6,7 @@ public abstract class DBConn {
     public DBConn() throws SQLException {
     }
 
-    public static ResultSet execute(String query) {
+    /*public static ResultSet execute(String query) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection(
@@ -23,9 +23,9 @@ public abstract class DBConn {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/ //deprecated
 
-    public static void update(String query) {
+    public static void update(String query) { //do usuniecia!
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection(
@@ -50,12 +50,8 @@ public abstract class DBConn {
                     "jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa",
                     "w5NtVBqSWa",
                     "F6mKAri9L0");
-        } catch (SQLException | ClassNotFoundException throwables) {
+        } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException throwables) {
             throwables.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         }
     }
     //wtf nie wiem o co chodzi ale dziala i jest duzo szybsze

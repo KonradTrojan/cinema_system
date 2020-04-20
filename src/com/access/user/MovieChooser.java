@@ -36,7 +36,6 @@ public class MovieChooser {
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         ImageIcon img = new ImageIcon("favicon.jpg");
         mainFrame.setIconImage(img.getImage());
-        //mainFrame.setPreferredSize(new Dimension(485, 500));
         mainFrame.add(scrollBar);
         mainFrame.pack();
         mainFrame.setResizable(false);

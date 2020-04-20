@@ -81,7 +81,9 @@ public abstract class Movies {
 
     public static ArrayList<String> getTitles() {
         try {
-            ResultSet rs = DBConn.execute("SELECT title FROM movies");
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT title FROM movies");
             ArrayList<String> movies = new ArrayList<>();
             while (rs.next()) {
                 movies.add(rs.getString("title"));
@@ -146,7 +148,9 @@ public abstract class Movies {
 
     public static String getLength(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT length FROM movies WHERE idMovie=" + id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT length FROM movies WHERE idMovie=" + id);
             if (rs.next()) {
                 return rs.getString("length");
             } else return null;

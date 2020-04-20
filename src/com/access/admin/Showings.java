@@ -8,9 +8,11 @@ import java.util.ArrayList;
 public abstract class Showings {
     public static int getRoomId(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT idRoom FROM filmScreenings WHERE idScreenings="+id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idRoom FROM filmScreenings WHERE idScreenings="+id);
             if (rs.next()) {
-                return rs.getInt("RoomID");
+                return rs.getInt("idRoom");
             } else return 0;
         }catch (Exception e){
             e.printStackTrace();
@@ -19,9 +21,11 @@ public abstract class Showings {
     }
     public static int getMovieId(int id) {
         try {
-            ResultSet rs = DBConn.execute("SELECT idmovie FROM filmScreenings WHERE idScreenings="+id);
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idmovie FROM filmScreenings WHERE idScreenings="+id);
             if (rs.next()) {
-                return rs.getInt("RoomID");
+                return rs.getInt("idmovie");
             } else return 0;
         }catch (Exception e){
             e.printStackTrace();
