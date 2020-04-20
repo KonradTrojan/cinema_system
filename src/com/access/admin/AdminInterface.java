@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class AdminInterface extends JFrame {
 
@@ -28,7 +25,7 @@ public class AdminInterface extends JFrame {
     private JButton pokażHarmonogramSeansówButton;
     private JButton usuńSeansButton1;
     private JButton edytujSeansButton;
-    private JButton dodajSeansButton1;
+    private JButton addShowButt;
     private JButton editRoomButt;
     private JButton addlRoomButt;
     private JButton deleteRoomButt;
@@ -118,6 +115,13 @@ public class AdminInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AddRoom addRoom = new AddRoom();
                 addRoom.setVisible(true);
+            }
+        });
+        addShowButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddShowing addShowing = new AddShowing();
+                addShowing.setVisible(true);
             }
         });
     }

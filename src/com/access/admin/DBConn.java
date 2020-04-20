@@ -8,7 +8,7 @@ public abstract class DBConn {
 
     /*public static ResultSet execute(String query) {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+//            Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection(
                     "jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa",
                     "w5NtVBqSWa",
@@ -59,4 +59,8 @@ public abstract class DBConn {
     public static Connection getConnection() {
         return con;
     }
+
+
+
+
 }

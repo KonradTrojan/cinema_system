@@ -250,11 +250,11 @@ public abstract class Movies {
         PreparedStatement statement = null;
         FileInputStream inputStream = null;
 
-        String sql_ = "UPDATE movies set title=?, length=?,description=?,director=?," +
+        String sql = "UPDATE movies set title=?, length=?,description=?,director=?," +
                 "writer=?,ageCategory=?,stars=?,poster=? WHERE idMovie="+idMovie;
 
         try {
-            statement = connection.prepareStatement(sql_);
+            statement = connection.prepareStatement(sql);
             inputStream = new FileInputStream(poster);
             statement.setString(1,title);
             statement.setInt(2,length);

@@ -54,6 +54,7 @@ public class MovieChooser {
         else
             xshift = 4;
         //poster
+
         JLabel posterLabel = new JLabel(new ImageIcon(Movies.getPoster(movieid)));
         posterLabel.setBorder(BorderFactory.createTitledBorder("Plakat"));
         GridBagConstraints pC = new GridBagConstraints();

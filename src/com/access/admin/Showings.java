@@ -52,5 +52,7 @@ public abstract class Showings {
         return getAllShowings(id).size();
     }
 
+    public static void addShowing(){
 
+    }
 }
