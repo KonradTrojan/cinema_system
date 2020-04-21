@@ -124,6 +124,15 @@ public class AdminInterface extends JFrame {
                 addShowing.setVisible(true);
             }
         });
+        edytujSeansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EditShowing editShowing = new EditShowing();
+                editShowing.setVisible(true
+                );
+            }
+        });
+
     }
 
     public static void main(String[] args) {

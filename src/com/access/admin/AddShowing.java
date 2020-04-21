@@ -49,7 +49,6 @@ public class AddShowing extends JFrame{
 
         loadData();
 
-
         CancButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -199,25 +198,6 @@ public class AddShowing extends JFrame{
         selDayCB.removeAllItems();
         for (int day: numberOfDaysInComBox())
             selDayCB.addItem(day);
-    }
-
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"));
-
-
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.set(Calendar.MINUTE,10);
-
-
-
-        System.out.println(calendar.get(Calendar.HOUR));
-        System.out.println(calendar.get(Calendar.MINUTE));
-        calendar1.add(Calendar.MINUTE,+60);
-//        calendar1.add(Calendar.HOUR_OF_DAY,+60);
-        System.out.println(calendar.get(Calendar.HOUR));
-        System.out.println(calendar.get(Calendar.MINUTE));
-
-
     }
 
 }

@@ -47,9 +47,28 @@ public abstract class Showings {
         }
         return x;
     }
+
     public static int getNumberOfShowings(int id) {
         return getAllShowings(id).size();
     }
+
+    public static ArrayList <Integer> getShowings(int idMovie, int idRoom) {
+        ArrayList<Integer> showings = new ArrayList<Integer>();
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idScreenings FROM filmScreenings WHERE idmovie='"+idMovie+"'AND idRoom='"+idRoom+"'");
+            while (rs.next()) {
+                showings.add(rs.getInt("idScreenings"));
+            }
+            stmt.close();
+            return showings;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return showings;
+    }
+
 
     public static void addShowing(int idMovie, int idRoom, String format,
                                   int day, Calendar start){
@@ -71,17 +90,43 @@ public abstract class Showings {
             }
             else
                 start.add(Calendar.MINUTE,start.get(Calendar.MINUTE)+Movies.getLengthInt(idMovie));
+
             stmt.setDate(6,new java.sql.Date(start.getTime().getTime()),start);
-
-
             stmt.executeUpdate();
             stmt.close();
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-//    public static void deleteShowing(id )
+    public static void deleteShowing(int idShow){
+        try {
+            Connection conn = DBConn.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM filmScreenings WHERE idScreenings=" + idShow);
+            stmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public static void deleteShowingByMovie(int idMovie){
+        try {
+            Connection conn = DBConn.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM filmScreenings WHERE idmovie=" + idMovie);
+            stmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public static void deleteShowingByRoom(int idRoom){
+        try {
+            Connection conn = DBConn.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM filmScreenings WHERE idRoom=" + idRoom);
+            stmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

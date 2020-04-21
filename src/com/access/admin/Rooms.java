@@ -61,6 +61,7 @@ public abstract class Rooms {
         String sql_ = "DELETE FROM rooms WHERE idRoom =? ";
 
         try {
+            Showings.deleteShowingByRoom(idRoom);
             statement = connection.prepareStatement(sql_);
             statement.setInt(1,idRoom);
 

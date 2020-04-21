@@ -260,9 +260,9 @@ public abstract class Movies {
         String sql_ = "DELETE FROM movies WHERE title =? ";
 
         try {
+            Showings.deleteShowingByMovie(Movies.getId(deletedTitle));
             statement = connection.prepareStatement(sql_);
             statement.setString(1,deletedTitle);
-
             statement.executeUpdate();
 
         }catch (SQLException ek) {
