@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 public class AddShowing extends JFrame{
@@ -73,7 +73,7 @@ public class AddShowing extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int selectedIndex;
                 String title;
-                int room;
+                int idroom;
                 String formatSound;
                 String formatDim;
                 int day;
@@ -84,15 +84,18 @@ public class AddShowing extends JFrame{
 
                 selectedIndex = selTitleCB.getSelectedIndex();
                 title = selTitleCB.getItemAt(selectedIndex).toString();
+                int idMovie = Movies.getId(title);
 
                 selectedIndex = selRoomCB.getSelectedIndex();
-                room = (int)selRoomCB.getItemAt(selectedIndex);
+                idroom = (int)selRoomCB.getItemAt(selectedIndex);
 
                 selectedIndex = selFormSoundCB.getSelectedIndex();
                 formatSound = selFormSoundCB.getItemAt(selectedIndex).toString();
 
                 selectedIndex = selFormDimCB.getSelectedIndex();
                 formatDim = selFormDimCB.getItemAt(selectedIndex).toString();
+
+                String format = formatDim + ", " + formatSound;
 
                 selectedIndex = selDayCB.getSelectedIndex();
                 day = (int) selDayCB.getItemAt(selectedIndex);
@@ -109,8 +112,17 @@ public class AddShowing extends JFrame{
                 selectedIndex = selMinutCB.getSelectedIndex();
                 minut = (int) selMinutCB.getItemAt(selectedIndex);
 
-                String format = formatDim + ", " + formatSound;
-                Date date = new Date();
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,month);
+                calendar.set(Calendar.DAY_OF_MONTH,day);
+
+                calendar.set(Calendar.HOUR,hour);
+                calendar.set(Calendar.MONTH,minut);
+
+                Showings.addShowing(idMovie,idroom,format,calendar.get(Calendar.DAY_OF_WEEK),calendar);
+
             }
         });
     }
@@ -193,15 +205,17 @@ public class AddShowing extends JFrame{
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"));
 
 
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Calendar.MINUTE,10);
 
 
 
-        calendar.add(Calendar.DATE,16);
-
-        System.out.println(calendar.get(Calendar.MONTH));
-
-        calendar.add(Calendar.DATE,32);
-        System.out.println(calendar.get(Calendar.MONTH));
+        System.out.println(calendar.get(Calendar.HOUR));
+        System.out.println(calendar.get(Calendar.MINUTE));
+        calendar1.add(Calendar.MINUTE,+60);
+//        calendar1.add(Calendar.HOUR_OF_DAY,+60);
+        System.out.println(calendar.get(Calendar.HOUR));
+        System.out.println(calendar.get(Calendar.MINUTE));
 
 
     }

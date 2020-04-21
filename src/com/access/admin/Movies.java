@@ -45,6 +45,25 @@ public abstract class Movies {
         return null;
     }
 
+    public static int getId(String title) {
+
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM movies WHERE title='" + title+"'");
+            int id = 0;
+            if (rs.next()) {
+                id = rs.getInt("idMovie");
+            }
+            stmt.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
     public static String getDescription(int id) {
         try {
             Connection con = DBConn.getConnection();
@@ -145,6 +164,21 @@ public abstract class Movies {
         }
         return null;
     }
+
+    public static int getLengthInt(int id) {
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT length FROM movies WHERE idMovie=" + id);
+            if (rs.next()) {
+                return rs.getInt("length");
+            } else return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     public static String getLength(int id) {
         try {
