@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -70,62 +72,71 @@ public class AddShowing extends JFrame{
         addShowButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedIndex;
-                String title;
-                int idroom;
-                String formatSound;
-                String formatDim;
-                int day;
-                int month;
-                int year;
-                int hour;
-                int minut;
+                try{
+                    int selectedIndex;
+                    String title;
+                    int idroom;
+                    String formatSound;
+                    String formatDim;
+                    int day;
+                    int month;
+                    int year;
+                    int hour;
+                    int minut;
 
-                selectedIndex = selTitleCB.getSelectedIndex();
-                title = selTitleCB.getItemAt(selectedIndex).toString();
-                int idMovie = Movies.getId(title);
+                    selectedIndex = selTitleCB.getSelectedIndex();
+                    title = selTitleCB.getItemAt(selectedIndex).toString();
+                    int idMovie = Movies.getId(title);
 
-                selectedIndex = selRoomCB.getSelectedIndex();
-                idroom = (int)selRoomCB.getItemAt(selectedIndex);
+                    selectedIndex = selRoomCB.getSelectedIndex();
+                    idroom = (int)selRoomCB.getItemAt(selectedIndex);
 
-                selectedIndex = selFormSoundCB.getSelectedIndex();
-                formatSound = selFormSoundCB.getItemAt(selectedIndex).toString();
+                    selectedIndex = selFormSoundCB.getSelectedIndex();
+                    formatSound = selFormSoundCB.getItemAt(selectedIndex).toString();
 
-                selectedIndex = selFormDimCB.getSelectedIndex();
-                formatDim = selFormDimCB.getItemAt(selectedIndex).toString();
+                    selectedIndex = selFormDimCB.getSelectedIndex();
+                    formatDim = selFormDimCB.getItemAt(selectedIndex).toString();
 
-                String format = formatDim + ", " + formatSound;
+                    String format = formatDim + ", " + formatSound;
 
-                selectedIndex = selDayCB.getSelectedIndex();
-                day = (int) selDayCB.getItemAt(selectedIndex);
+                    selectedIndex = selDayCB.getSelectedIndex();
+                    day = (int) selDayCB.getItemAt(selectedIndex);
 
-                selectedIndex = selMonthCB.getSelectedIndex();
-                month = (int) selMonthCB.getItemAt(selectedIndex);
+                    selectedIndex = selMonthCB.getSelectedIndex();
+                    month = (int) selMonthCB.getItemAt(selectedIndex);
 
-                selectedIndex = selYearCB.getSelectedIndex();
-                year = (int) selYearCB.getItemAt(selectedIndex);
+                    selectedIndex = selYearCB.getSelectedIndex();
+                    year = (int) selYearCB.getItemAt(selectedIndex);
 
-                selectedIndex = selHourCB.getSelectedIndex();
-                hour = (int) selHourCB.getItemAt(selectedIndex);
+                    selectedIndex = selHourCB.getSelectedIndex();
+                    hour = (int) selHourCB.getItemAt(selectedIndex);
 
-                selectedIndex = selMinutCB.getSelectedIndex();
-                minut = (int) selMinutCB.getItemAt(selectedIndex);
+                    selectedIndex = selMinutCB.getSelectedIndex();
+                    minut = (int) selMinutCB.getItemAt(selectedIndex);
 
+    //                default value of year in class Timestamp is 1900
+                    Timestamp start = new Timestamp(year- 1900,month-1,day,hour,minut,0,0);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR,year);
-                calendar.set(Calendar.MONTH,month);
-                calendar.set(Calendar.DAY_OF_MONTH,day);
+                    if(minut + Movies.getLengthInt(idMovie)%60 > 60){
+                        hour = hour + Movies.getLengthInt(idMovie)/60 + 1;
+                        minut = (minut + Movies.getLengthInt(idMovie)%60)%60;
+                    }else{
+                        hour = hour  + Movies.getLengthInt(idMovie)/60;
+                        minut = minut + Movies.getLengthInt(idMovie)%60;
+                    }
+                    Timestamp end = new Timestamp(year- 1900,month-1,day,hour,minut,0,0);
 
-                calendar.set(Calendar.HOUR,hour);
-                calendar.set(Calendar.MONTH,minut);
-
-                Showings.addShowing(idMovie,idroom,format,calendar.get(Calendar.DAY_OF_WEEK),calendar);
-
+                    Showings.addShowing(idMovie,idroom,format,start,end);
+                    JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Komunikat",
+                        JOptionPane.INFORMATION_MESSAGE);
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(new JFrame(), "Wpis nie został dodany do bazy danych.", "Błąd",
+                            JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
+                }
             }
         });
     }
-
     public void loadData(){
         for (String title : Movies.getTitles())
             selTitleCB.addItem(title);
@@ -175,7 +186,13 @@ public class AddShowing extends JFrame{
     public ArrayList<Integer> numberOfDaysInComBox(){
         ArrayList<Integer> daysOfMonth = new ArrayList<>();
         int selectedIndex = selMonthCB.getSelectedIndex();
-        if((int)selMonthCB.getItemAt(selectedIndex) == 1 || (int)selMonthCB.getItemAt(selectedIndex) == 3 ||
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"));
+        if((int)selMonthCB.getItemAt(selectedIndex) == calendar.get(Calendar.MONTH)+1){
+            YearMonth yearMonth = YearMonth.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
+            for(int i = calendar.get(Calendar.DAY_OF_MONTH); i<yearMonth.lengthOfMonth();i++){
+                daysOfMonth.add(i);
+            }
+        } else if((int)selMonthCB.getItemAt(selectedIndex) == 1 || (int)selMonthCB.getItemAt(selectedIndex) == 3 ||
                 (int)selMonthCB.getItemAt(selectedIndex) == 5 || (int)selMonthCB.getItemAt(selectedIndex) == 7 ||
                 (int)selMonthCB.getItemAt(selectedIndex) == 8 || (int)selMonthCB.getItemAt(selectedIndex) == 10 ||
                 (int)selMonthCB.getItemAt(selectedIndex) == 12){
@@ -199,5 +216,7 @@ public class AddShowing extends JFrame{
         for (int day: numberOfDaysInComBox())
             selDayCB.addItem(day);
     }
+
+
 
 }

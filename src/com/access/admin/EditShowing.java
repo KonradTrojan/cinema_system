@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class EditShowing extends JFrame{
 
@@ -29,8 +30,7 @@ public class EditShowing extends JFrame{
     public EditShowing() {
         setContentPane(mainEditJP);
 
-        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
-                screenHeight/2 - DEFAULT_HEIGHT/2);
+        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,screenHeight/2 - DEFAULT_HEIGHT/2);
         pack();
         setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
 
@@ -41,7 +41,6 @@ public class EditShowing extends JFrame{
         for(Integer idRoom : Rooms.getAllRooms()){
             selRoomCB.addItem(idRoom);
         }
-
 
         cancButt.addActionListener(new ActionListener() {
             @Override
@@ -61,6 +60,12 @@ public class EditShowing extends JFrame{
                 refreshComboBox();
             }
         });
+        editButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     private void refreshComboBox(){
@@ -71,8 +76,14 @@ public class EditShowing extends JFrame{
        selectedIndex = selRoomCB.getSelectedIndex();
        int idRoom = (int) selRoomCB.getItemAt(selectedIndex);
 
+       selDayCB.removeAllItems();
         for(Integer i: Showings.getShowings(idMovie,idRoom)){
             selDayCB.addItem(i);
+        }
+
+        selHourCB.removeAllItems();
+        for(Calendar calendar : Showings.getDates()){
+            selHourCB.addItem(calendar.get(Calendar.HOUR)+":"+calendar.get(Calendar.MINUTE));
         }
     }
 }

@@ -44,6 +44,4 @@ public abstract class Users {
         }
         return null;
     }
-
-
 }
