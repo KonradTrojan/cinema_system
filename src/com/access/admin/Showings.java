@@ -3,6 +3,7 @@ package com.access.admin;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public abstract class Showings {
     public static int getRoomId(int id) {
@@ -31,7 +32,7 @@ public abstract class Showings {
         }
         return 0;
     }
-    public static Calendar getDate(int id){
+    public static Timestamp getDate(int id){
         try {
             Connection con = DBConn.getConnection();
             Statement stmt = con.createStatement();
@@ -40,25 +41,48 @@ public abstract class Showings {
             Calendar calendar = Calendar.getInstance();
             if (rs.next()) {
                 time = rs.getTimestamp("start");
-                calendar.setTimeInMillis(time.getTime());
+                return time;
             }
             stmt.close();
 
-            return calendar;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String getDateString(int id){
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT start FROM filmScreenings WHERE idScreenings="+id);
+            Timestamp time;
+            Calendar calendar = Calendar.getInstance();
+            String date = null;
+            if (rs.next()) {
+                time = rs.getTimestamp("start");
+                calendar.setTimeInMillis(time.getTime());
+                calendar.set(Calendar.MONTH,1);
+                date = calendar.get(Calendar.DAY_OF_MONTH)+"."+calendar.get(Calendar.MONTH)+"."+calendar.get(Calendar.YEAR);
+
+            }
+            stmt.close();
+            return date;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public static ArrayList<Calendar> getDates(){
+    public static ArrayList<Calendar> getDates(int idMovie, int idRoom, int idshowing){
         ArrayList <Calendar> dates = new ArrayList<>();
         try {
             Connection con = DBConn.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT start FROM filmScreenings");
             Timestamp time;
-            Calendar calendar = Calendar.getInstance();
+
             while (rs.next()) {
+                Calendar calendar = Calendar.getInstance();
                 time = rs.getTimestamp("start");
                 calendar.setTimeInMillis(time.getTime());
                 dates.add(calendar);
@@ -70,7 +94,7 @@ public abstract class Showings {
             return null;
         }
     }
-    public static ArrayList <Integer> getAllShowings(int id) {
+    public static ArrayList <Integer> getAllShowings() {
         ArrayList<Integer> x = new ArrayList<Integer>();
         try {
             Connection con = DBConn.getConnection();
@@ -87,8 +111,8 @@ public abstract class Showings {
         return x;
     }
 
-    public static int getNumberOfShowings(int id) {
-        return getAllShowings(id).size();
+    public static int getNumberOfShowings() {
+        return getAllShowings().size();
     }
 
     public static ArrayList <Integer> getShowings(int idMovie, int idRoom) {
@@ -158,5 +182,16 @@ public abstract class Showings {
             e.printStackTrace();
         }
     }
-//    public static void editShowing()
+
+    public static void main(String[] args) {
+        int i = 0;
+//        for(Calendar cal : Objects.requireNonNull(getDates())){
+//            System.out.println(i + "wpis");
+//            System.out.println(cal.get(Calendar.HOUR));
+//            System.out.println(cal.get(Calendar.MINUTE));
+//            System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+//
+//            i++;
+//        }
+    }
 }
