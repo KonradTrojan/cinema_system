@@ -125,10 +125,14 @@ public class AddShowing extends JFrame{
                         minut = minut + Movies.getLengthInt(idMovie)%60;
                     }
                     Timestamp end = new Timestamp(year- 1900,month-1,day,hour,minut,0,0);
-
-                    Showings.addShowing(idMovie,idroom,format,start,end);
-                    JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Komunikat",
-                        JOptionPane.INFORMATION_MESSAGE);
+                    if(Showings.roomIsFree(idroom,start,end)) {
+                        Showings.addShowing(idMovie, idroom, format, start, end);
+                        JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Komunikat",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }else {
+                        JOptionPane.showMessageDialog(new JFrame(), "W sali nr "+idroom+" w tych godzinach jest grany film.", "Komunikat",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }catch (Exception ex){
                     JOptionPane.showMessageDialog(new JFrame(), "Wpis nie został dodany do bazy danych.", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
@@ -138,24 +142,7 @@ public class AddShowing extends JFrame{
         });
     }
     public void loadData(){
-        for (String title : Movies.getTitles())
-            selTitleCB.addItem(title);
-
-        for (Integer idRoom : Rooms.getAllRooms())
-            selRoomCB.addItem(idRoom);
-
-        for (int i = 0; i < 24; i++){
-            selHourCB.addItem(i+1);
-        }
-        for (int i = 0; i < 12; i++){
-            selMinutCB.addItem(i*5);
-        }
-        selFormSoundCB.addItem("Napisy");
-        selFormSoundCB.addItem("Dubbing");
-        selFormSoundCB.addItem("Dzwięk Oryginalny");
-
-        selFormDimCB.addItem("2D");
-        selFormDimCB.addItem("3D");
+        completeCombobox();
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"));
 
@@ -216,6 +203,27 @@ public class AddShowing extends JFrame{
         for (int day: numberOfDaysInComBox())
             selDayCB.addItem(day);
     }
+    private void completeCombobox(){
+        for (String title : Movies.getTitles())
+            selTitleCB.addItem(title);
+
+        for (Integer idRoom : Rooms.getAllRooms())
+            selRoomCB.addItem(idRoom);
+
+        for (int i = 0; i < 24; i++){
+            selHourCB.addItem(i+1);
+        }
+        for (int i = 0; i < 12; i++){
+            selMinutCB.addItem(i*5);
+        }
+        selFormSoundCB.addItem("Napisy");
+        selFormSoundCB.addItem("Dubbing");
+        selFormSoundCB.addItem("Dzwięk Oryginalny");
+
+        selFormDimCB.addItem("2D");
+        selFormDimCB.addItem("3D");
+    }
+
 
 
 

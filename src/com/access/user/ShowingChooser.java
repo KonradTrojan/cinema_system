@@ -29,7 +29,7 @@ public class ShowingChooser {
         TimeBarViewer tbv = new TimeBarViewer(model);
         DefaultRowHeader header = new DefaultRowHeader(Movies.getTitle(movieId));
         DefaultTimeBarRowModel tbr = new DefaultTimeBarRowModel(header);
-        ArrayList <Integer> showings = Showings.getAllShowings(movieId);
+        ArrayList <Integer> showings = Showings.getAllShowings();
         for (int i = 0; i < showings.size(); i++) {
             IntervalImpl interval = new IntervalImpl();
             JaretDate start = new JaretDate();
