@@ -124,15 +124,13 @@ public class AdminInterface extends JFrame {
                 addShowing.setVisible(true);
             }
         });
-        edytujSeansButton.addActionListener(new ActionListener() {
+        usuńSeansButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EditShowing editShowing = new EditShowing();
-                editShowing.setVisible(true
-                );
+                DeleteShowing deleteShowing = new DeleteShowing();
+                deleteShowing.setVisible(true);
             }
         });
-
     }
 
     public static void main(String[] args) {

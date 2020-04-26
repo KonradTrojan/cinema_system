@@ -75,23 +75,18 @@ public abstract class Showings {
         }
         return null;
     }
-    public static ArrayList<Integer> getShowingsSameDay(int idMovie,int idRoom, Timestamp date){
+    public static ArrayList<Integer> getShowingsSameDay(int idMovie,int idRoom, String date){
         try {
             Connection con = DBConn.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM filmScreenings WHERE idRoom="+idRoom+" AND idmovie="+idMovie);
             ArrayList<Integer> times = new ArrayList<>();
             Timestamp timestamp;
-            Calendar cal1 = null;
-            cal1.setTimeInMillis(date.getTime());
+
             while (rs.next()) {
                 timestamp = rs.getTimestamp("start");
-                Calendar cal2 = null;
-                cal2.setTimeInMillis(timestamp.getTime());
-                if(cal1.get(Calendar.YEAR)==cal2.get(Calendar.YEAR))
-                    if(cal1.get(Calendar.MONTH)==cal2.get(Calendar.MONTH))
-                        if(cal1.get(Calendar.DAY_OF_MONTH)==cal2.get(Calendar.DAY_OF_MONTH))
-                            times.add(rs.getInt("idScreenings"));
+                if(date.substring(0,10).equals(timestamp.toString().substring(0,10)))
+                    times.add(rs.getInt("idScreenings"));
             }
             stmt.close();
             return times;
@@ -257,23 +252,18 @@ public abstract class Showings {
             for (Integer idShow : showings) {
                 Timestamp showInRoomStart = Showings.getDate(idShow);
                 Timestamp showInRoomEnd = Showings.getDateEnd(idShow);
-                if ((start.getTime() > showInRoomEnd.getTime()) || (end.getTime() < showInRoomStart.getTime()) ||
-                        (start.getTime() < showInRoomStart.getTime() && end.getTime() > showInRoomEnd.getTime()))
-                    return true;
+                if (!((start.getTime() > showInRoomEnd.getTime()) || (end.getTime() < showInRoomStart.getTime())))
+                    return false;
+                else if((start.getTime() < showInRoomStart.getTime() && end.getTime() > showInRoomStart.getTime()))
+                    return false;
+                else if((start.getTime() < showInRoomEnd.getTime() && end.getTime() > showInRoomEnd.getTime()) )
+                    return false;
             }
-            return false;
+            return true;
         }
     }
 
     public static void main(String[] args) {
-        int i = 0;
-//        for(Calendar cal : Objects.requireNonNull(getDates())){
-//            System.out.println(i + "wpis");
-//            System.out.println(cal.get(Calendar.HOUR));
-//            System.out.println(cal.get(Calendar.MINUTE));
-//            System.out.println(cal.get(Calendar.DAY_OF_MONTH));
-//
-//            i++;
-//        }
+
     }
 }

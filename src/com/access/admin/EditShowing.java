@@ -62,8 +62,7 @@ public class EditShowing extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 refreshSelDayCB();
-                refreshSelHourCB();
-            }
+                refreshSelHourCB();           }
         });
     }
 
