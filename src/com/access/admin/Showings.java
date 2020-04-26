@@ -96,28 +96,7 @@ public abstract class Showings {
         }
         return null;
     }
-    public static String getDateString(int id){
-        try {
-            Connection con = DBConn.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT start FROM filmScreenings WHERE idScreenings="+id);
-            Timestamp time;
-            Calendar calendar = Calendar.getInstance();
-            String date = null;
-            if (rs.next()) {
-                time = rs.getTimestamp("start");
-                calendar.setTimeInMillis(time.getTime());
-                calendar.set(Calendar.MONTH,1);
-                date = calendar.get(Calendar.DAY_OF_MONTH)+"."+calendar.get(Calendar.MONTH)+"."+calendar.get(Calendar.YEAR);
-            }
-            stmt.close();
-            return date;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public static ArrayList<Calendar> getDates(int idMovie, int idRoom, int idshowing){
         ArrayList <Calendar> dates = new ArrayList<>();

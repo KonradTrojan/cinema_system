@@ -1,15 +1,32 @@
 package com.access.admin;
 
+import de.jaret.util.ui.timebars.model.TimeBarModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
-public class DeleteShowing extends JFrame {
-    private static final int DEFAULT_WIDTH = 805;
+public class ShowBookings extends JFrame{
+    private JPanel mainShow;
+    private JComboBox selTitleCB;
+    private JComboBox selRoomCB;
+    private JButton showBookButt;
+    private JButton cancButt;
+    private JButton clearListButt;
+    private JComboBox selDayCB;
+    private JComboBox selHourCB;
+    private JList BookingJList;
+    private ArrayList<Integer> idShowings = new ArrayList<>();
+    private ArrayList<Integer> selectedIdShowings = new ArrayList<>();
+    DefaultListModel dlm = new DefaultListModel();
+
+    private static final int DEFAULT_WIDTH = 1005;
     private static final int DEFAULT_HEIGHT = 500;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
@@ -17,22 +34,8 @@ public class DeleteShowing extends JFrame {
     int screenWidth = screenSize.width;
     int screenHeight = screenSize.height;
 
-
-    private JButton editButt;
-    private JButton cancButt;
-    private JComboBox selTitleCB;
-    private JComboBox selRoomCB;
-    private JComboBox selDayCB;
-    private JComboBox selHourCB;
-    private JPanel mainEditJP;
-    private ArrayList<Integer> idShowings = new ArrayList<>();
-    private ArrayList<Integer> selectedIdShowings = new ArrayList<>();
-    private JPanel mainDeleteShowing;
-    private JButton deleteButt;
-    private Calendar cal = Calendar.getInstance();
-
-    public DeleteShowing() {
-        setContentPane(mainDeleteShowing);
+    public ShowBookings() {
+        setContentPane(mainShow);
         setLocation(screenWidth / 2 - DEFAULT_WIDTH / 2, screenHeight / 2 - DEFAULT_HEIGHT / 2);
         pack();
         setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
@@ -74,26 +77,36 @@ public class DeleteShowing extends JFrame {
                 dispose();
             }
         });
-        deleteButt.addActionListener(new ActionListener() {
+        showBookButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedIndex = selDayCB.getSelectedIndex();
-                int idShowToDelete = selectedIdShowings.get(selectedIndex);
-                refreshSelHourCB();
-                refreshSelDayCB();
-                JOptionPane.showMessageDialog(new JFrame(), "Seans został usunięty z bazy danych", "Komuniakt",
-                        JOptionPane.INFORMATION_MESSAGE);
-                try {
-                    Showings.deleteShowing(idShowToDelete);
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(new JFrame(), "Wystąpił błąd podaczas usuwania", "Komuniakt",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+                if (selDayCB.getItemCount()!=0 && selHourCB.getItemCount() != 0 &&
+                selTitleCB.getItemCount() != 0 && selRoomCB.getItemCount()!=0) {
 
+                    int selectedIndex = selHourCB.getSelectedIndex();
+                    int idShow = selectedIdShowings.get(selectedIndex);
+
+
+                    ArrayList<String> bookings = Bookings.getBookingsToString(idShow);
+                    Timestamp timestamp = Showings.getDate(idShow);
+                    String date = ", Dzień: "+timestamp.toString().substring(0,10)+
+                            ", Godzina: "+timestamp.toString().substring(11,16);
+                    for(String booking : bookings)
+                        dlm.addElement(booking+date);
+
+                    BookingJList.setModel(dlm);
+                }
+            }
+        });
+        clearListButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultListModel model = new DefaultListModel();
+                model.clear();
+                BookingJList.setModel(model);
             }
         });
     }
-
     private void refreshSelDayCB(){
         int selectedIndex = selTitleCB.getSelectedIndex();
         String title = (String) selTitleCB.getItemAt(selectedIndex);
@@ -107,12 +120,11 @@ public class DeleteShowing extends JFrame {
         for (Integer idShow : idShowings){
             timestamp = Showings.getDate(idShow);
             if(dateIsntInDayComBox(timestamp))
-               selDayCB.addItem(dateToString(timestamp));
+                selDayCB.addItem(dateToString(timestamp));
         }
         // here add method to sort date in selDayCB
 
     }
-
     private void refreshSelHourCB(){
         if(selDayCB.getItemCount() != 0) {
             int selectedIndex = selTitleCB.getSelectedIndex();
@@ -160,11 +172,8 @@ public class DeleteShowing extends JFrame {
         return timestamp.toString().substring(11,16);
     }
 
-    public static void main(String[] args) {
-        Calendar cal = Calendar.getInstance();
-        Timestamp tim = new Timestamp(cal.getTimeInMillis());
-        System.out.println(tim.toString());
-        System.out.println(tim.toString().substring(0,10));
-        System.out.println(tim.toString().substring(11,16));
+    private void completeList(int idShow){
+
     }
+
 }

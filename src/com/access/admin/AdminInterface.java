@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class AdminInterface extends JFrame {
 
 
+
     private static final int DEFAULT_WIDTH = 805;
     private static final int DEFAULT_HEIGHT = 500;
 
@@ -30,6 +31,7 @@ public class AdminInterface extends JFrame {
     private JButton addlRoomButt;
     private JButton deleteRoomButt;
     private JComboBox roomsComBox;
+    private JButton showBookings;
 
     public AdminInterface() {
 
@@ -129,6 +131,13 @@ public class AdminInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DeleteShowing deleteShowing = new DeleteShowing();
                 deleteShowing.setVisible(true);
+            }
+        });
+        showBookings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShowBookings showBookings = new ShowBookings();
+                showBookings.setVisible(true);
             }
         });
     }
