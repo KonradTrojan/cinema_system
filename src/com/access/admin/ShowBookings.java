@@ -22,6 +22,7 @@ public class ShowBookings extends JFrame{
     private JComboBox selDayCB;
     private JComboBox selHourCB;
     private JList BookingJList;
+    private JButton deleteSelectedButt;
     private ArrayList<Integer> idShowings = new ArrayList<>();
     private ArrayList<Integer> selectedIdShowings = new ArrayList<>();
     DefaultListModel dlm = new DefaultListModel();
@@ -62,7 +63,6 @@ public class ShowBookings extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 refreshSelDayCB();
                 refreshSelHourCB();
-
             }
         });
         selDayCB.addActionListener(new ActionListener() {
@@ -80,30 +80,27 @@ public class ShowBookings extends JFrame{
         showBookButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selDayCB.getItemCount()!=0 && selHourCB.getItemCount() != 0 &&
-                selTitleCB.getItemCount() != 0 && selRoomCB.getItemCount()!=0) {
-
-                    int selectedIndex = selHourCB.getSelectedIndex();
-                    int idShow = selectedIdShowings.get(selectedIndex);
-
-
-                    ArrayList<String> bookings = Bookings.getBookingsToString(idShow);
-                    Timestamp timestamp = Showings.getDate(idShow);
-                    String date = ", Dzień: "+timestamp.toString().substring(0,10)+
-                            ", Godzina: "+timestamp.toString().substring(11,16);
-                    for(String booking : bookings)
-                        dlm.addElement(booking+date);
-
-                    BookingJList.setModel(dlm);
-                }
+                completeList();
             }
         });
         clearListButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DefaultListModel model = new DefaultListModel();
-                model.clear();
-                BookingJList.setModel(model);
+                clearList();
+            }
+        });
+        deleteSelectedButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String record = BookingJList.getSelectedValue().toString();
+                    Bookings.delete(getBookingId(record));
+                    clearList();
+                    completeList();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(new JFrame(), "Nie zaznaczono żadnej rezerwacji.", "Komunikat",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
     }
@@ -171,9 +168,43 @@ public class ShowBookings extends JFrame{
     private String timeToString(Timestamp timestamp){
         return timestamp.toString().substring(11,16);
     }
+    private void completeList(){
+        if (selDayCB.getItemCount()!=0 && selHourCB.getItemCount() != 0 &&
+                selTitleCB.getItemCount() != 0 && selRoomCB.getItemCount()!=0) {
 
-    private void completeList(int idShow){
+            int selectedIndex = selHourCB.getSelectedIndex();
+            int idShow = selectedIdShowings.get(selectedIndex);
 
+            ArrayList<String> bookings = Bookings.getBookingsToString(idShow);
+            Timestamp timestamp = Showings.getDate(idShow);
+            String date = ", Dzień: "+timestamp.toString().substring(0,10)+
+                    ", Godzina: "+timestamp.toString().substring(11,16);
+            for(String booking : bookings)
+                dlm.addElement(booking+date);
+
+            BookingJList.setModel(dlm);
+        }
+    }
+    private void clearList(){
+        dlm = new DefaultListModel();
+        dlm.clear();
+        BookingJList.setModel(dlm);
     }
 
+    public int getBookingId(String record){
+        int i = 1;
+        String bookingId;
+        do{
+            bookingId = record.substring(0,i);
+            i++;
+        }while (!record.substring(i-1,i).equals(","));
+        return Integer.parseInt(bookingId);
+    }
+
+    public static void main(String[] args) {
+
+
+
+
+    }
 }

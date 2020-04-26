@@ -14,7 +14,7 @@ public abstract class Bookings {
             ArrayList<String> bookings = new ArrayList<>();
             String booking = null;
             while (rs.next()) {
-                booking =  "Nr rezerwacji: "+rs.getInt("idBooking") + ", Nr seansu: " +
+                booking =  rs.getInt("idBooking") + ", Nr seansu: " +
                 rs.getInt("idShowing") +", Nr klienta: " + rs.getInt("idUser")+
                 ", Sala: "+Showings.getRoomId(rs.getInt("idShowing")) + ", Rząd: " +
                 rs.getInt("row") + ", Miejsce: " + rs.getInt("seat") +
@@ -28,5 +28,15 @@ public abstract class Bookings {
             e.printStackTrace();
         }
         return null;
+    }
+    public static void delete(int idBooking){
+        try {
+            Connection conn = DBConn.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM bookings WHERE idBooking=" +idBooking);
+            stmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
