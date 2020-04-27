@@ -139,4 +139,12 @@ public abstract class ToolsGUI {
         }
         return daysOfMonth;
     }
+
+    public static int getSelectedIndexOfCB(JComboBox jComboBox){
+        int selectedIndex = jComboBox.getSelectedIndex();
+        return (int)jComboBox.getItemAt(selectedIndex);
+    }
+
+
 }
+

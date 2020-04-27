@@ -203,6 +203,21 @@ public abstract class Showings {
             return null;
         }
     }
+    public static int getShowingByIdRoom(int idRoom) {
+        try {
+            Connection conn = DBConn.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idScreenings FROM filmScreenings WHERE idRoom= " + idRoom);
+            if (rs.next()) {
+                return rs.getInt("idScreenings");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
+
 
     public static boolean roomIsFree(int idRoom, Timestamp start, Timestamp end) {
         ArrayList<Integer> showings = getShowingsByIdRoom(idRoom);

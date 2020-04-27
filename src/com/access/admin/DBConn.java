@@ -4,9 +4,6 @@ import java.sql.*;
 
 public abstract class DBConn {
     public static Connection con;
-
-    public static Connection conn;
-
     static {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -22,8 +19,5 @@ public abstract class DBConn {
     public static Connection getConnection() {
         return con;
     }
-
-
-
 
 }

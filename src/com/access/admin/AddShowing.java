@@ -27,6 +27,11 @@ public class AddShowing extends JFrame{
     private JComboBox selMonthCB;
     private JComboBox selYearCB;
     private JComboBox selFormDimCB;
+    private JComboBox selNumberOfReCB;
+    private JComboBox selDayOrWeek;
+
+    private static final long MILISECONDS_IN_DAY = 86400000;
+    private static final long MILISECONDS_IN_WEEK = 604800000;
 
     private static final int DEFAULT_WIDTH = 400;
     private static final int DEFAULT_HEIGHT = 300;
@@ -57,71 +62,49 @@ public class AddShowing extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    int selectedIndex;
-                    String title;
-                    int idroom;
-                    String formatSound;
-                    String formatDim;
-                    int day;
-                    int month;
-                    int year;
-                    int hour;
-                    int minut;
-
-                    selectedIndex = selTitleCB.getSelectedIndex();
-                    title = selTitleCB.getItemAt(selectedIndex).toString();
+                    int selectedIndex = selTitleCB.getSelectedIndex();
+                    String title = selTitleCB.getItemAt(selectedIndex).toString();
                     int idMovie = Movies.getId(title);
 
-                    selectedIndex = selRoomCB.getSelectedIndex();
-                    idroom = (int)selRoomCB.getItemAt(selectedIndex);
-
                     selectedIndex = selFormSoundCB.getSelectedIndex();
-                    formatSound = selFormSoundCB.getItemAt(selectedIndex).toString();
+                    String formatSound = selFormSoundCB.getItemAt(selectedIndex).toString();
 
                     selectedIndex = selFormDimCB.getSelectedIndex();
-                    formatDim = selFormDimCB.getItemAt(selectedIndex).toString();
+                    String formatDim = selFormDimCB.getItemAt(selectedIndex).toString();
 
                     String format = formatDim + ", " + formatSound;
 
-                    selectedIndex = selDayCB.getSelectedIndex();
-                    day = (int) selDayCB.getItemAt(selectedIndex);
+                    int idroom = ToolsGUI.getSelectedIndexOfCB(selRoomCB);
+                    int day = ToolsGUI.getSelectedIndexOfCB(selDayCB);
+                    int month = ToolsGUI.getSelectedIndexOfCB(selMonthCB);
+                    int year = ToolsGUI.getSelectedIndexOfCB(selYearCB);
+                    int hour = ToolsGUI.getSelectedIndexOfCB(selHourCB);
+                    int minut = ToolsGUI.getSelectedIndexOfCB(selMinutCB);
 
-                    selectedIndex = selMonthCB.getSelectedIndex();
-                    month = (int) selMonthCB.getItemAt(selectedIndex);
-
-                    selectedIndex = selYearCB.getSelectedIndex();
-                    year = (int) selYearCB.getItemAt(selectedIndex);
-
-                    selectedIndex = selHourCB.getSelectedIndex();
-                    hour = (int) selHourCB.getItemAt(selectedIndex);
-
-                    selectedIndex = selMinutCB.getSelectedIndex();
-                    minut = (int) selMinutCB.getItemAt(selectedIndex);
-
-    //                default value of year in class Timestamp is 1900
+                    //                default value of year in class Timestamp is 1900
                     Timestamp start = new Timestamp(year- 1900,month-1,day,hour,minut,0,0);
 
-                    if(minut + Movies.getLengthInt(idMovie)%60 > 60){
-                        hour = hour + Movies.getLengthInt(idMovie)/60 + 1;
-                        minut = (minut + Movies.getLengthInt(idMovie)%60)%60;
-                    }else{
-                        hour = hour  + Movies.getLengthInt(idMovie)/60;
-                        minut = minut + Movies.getLengthInt(idMovie)%60;
-                    }
-                    Timestamp end = new Timestamp(year- 1900,month-1,day,hour,minut,0,0);
-                    if(Showings.roomIsFree(idroom,start,end)) {
-                        Showings.addShowing(idMovie, idroom, format, start, end);
-                        JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Komunikat",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }else {
-                        JOptionPane.showMessageDialog(new JFrame(), "W sali nr "+idroom+" w tych godzinach jest grany film.", "Komunikat",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    long lengthOfMovieInMili = Movies.getLengthInt(idMovie)*60*1000;
+                    Timestamp end = new Timestamp(start.getTime());
+                    end.setTime(end.getTime()+lengthOfMovieInMili);
+
+                    selectedIndex = selNumberOfReCB.getSelectedIndex();
+                    if(selectedIndex == 0)
+                        Showings.addShowing(idMovie,idroom,format,start,end);
+                    else
+                        repeatedAdd(idMovie,idroom,format,start,end);
+
                 }catch (Exception ex){
                     JOptionPane.showMessageDialog(new JFrame(), "Wpis nie został dodany do bazy danych.", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();
                 }
+            }
+        });
+        selDayOrWeek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadNumberOfDayCB();
             }
         });
     }
@@ -151,7 +134,6 @@ public class AddShowing extends JFrame{
             selMonthCB.addItem(calendar.get(Calendar.MONTH)+1);
         }
         refresh();
-
     }
 
     public void refresh(){
@@ -178,9 +160,54 @@ public class AddShowing extends JFrame{
 
         selFormDimCB.addItem("2D");
         selFormDimCB.addItem("3D");
+
+        selDayOrWeek.addItem("dni");
+        selDayOrWeek.addItem("tygodni");
+        loadNumberOfDayCB();
+
+    }
+    private void loadNumberOfDayCB(){
+        int selectedIndex = selDayOrWeek.getSelectedIndex();
+        String time = selDayOrWeek.getItemAt(selectedIndex).toString();
+        selNumberOfReCB.removeAllItems();
+        switch (time){
+            case "dni":
+                for(int i = 0;i<=7;i++)
+                    selNumberOfReCB.addItem(i);
+                break;
+            case "tygodni":
+                for(int i = 0;i<=4;i++)
+                    selNumberOfReCB.addItem(i);
+                break;
+            default:
+        }
     }
 
+    public void repeatedAdd(int idMovie, int idRoom, String format,Timestamp start, Timestamp end) {
+        int selectedIndex = selDayOrWeek.getSelectedIndex();
+        String dayOrWeek = selDayOrWeek.getItemAt(selectedIndex).toString();
 
+        selectedIndex = selNumberOfReCB.getSelectedIndex();
+        int numberOfRepeats = (int) selNumberOfReCB.getItemAt(selectedIndex);
 
+        long timeInterval;
+        if (dayOrWeek.equals("dni"))
+            timeInterval = MILISECONDS_IN_DAY;
+        else
+            timeInterval = MILISECONDS_IN_WEEK;
 
+        for (int i = 0; i < numberOfRepeats; i++) {
+            start.setTime(start.getTime() + i * timeInterval);
+            end.setTime(end.getTime() + i * timeInterval);
+            if (Showings.roomIsFree(idRoom, start, end)) {
+                Showings.addShowing(idMovie, idRoom, format, start, end);
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), "W sali nr " + idRoom + " w dniu " +
+                                start.toString().substring(0, 10) + " jest grany film.", "Komunikat",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        JOptionPane.showMessageDialog(new JFrame(), "Wpisy pomyślnie dodane do bazy danych.", "Komunikat",
+                            JOptionPane.INFORMATION_MESSAGE);
+    }
 }

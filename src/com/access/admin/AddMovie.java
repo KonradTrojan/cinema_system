@@ -55,7 +55,6 @@ public class AddMovie extends JFrame{
                     JOptionPane.showMessageDialog(new JFrame(), "Plik plakatu nie został wczytany pomyślnie", "Błąd",
                             JOptionPane.ERROR_MESSAGE);
                 }else{
-
                     boolean helperLengthIsInt;
                     try {
                         Double.parseDouble(lengJTXT.getText());

@@ -105,9 +105,8 @@ public class ShowBookings extends JFrame{
         if (selDayCB.getItemCount()!=0 && selHourCB.getItemCount() != 0 &&
                 selTitleCB.getItemCount() != 0 && selRoomCB.getItemCount()!=0) {
 
-            int selectedIndex = selHourCB.getSelectedIndex();
-            int idShow = selectedIdShowings.get(selectedIndex);
-
+                int selectedIndex = selHourCB.getSelectedIndex();
+                int idShow = selectedIdShowings.get(selectedIndex);
 
                 ArrayList<String> bookings = Bookings.getBookingsToString(idShow);
                 Timestamp timestamp = Showings.getDateStart(idShow);
@@ -121,7 +120,6 @@ public class ShowBookings extends JFrame{
 
                 scrollPane.setViewportView(bookingJList);
             }
-
     }
     private void clearList(){
         dlm = new DefaultListModel();

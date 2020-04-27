@@ -7,15 +7,6 @@ import java.awt.event.ActionListener;
 
 public class AdminInterface extends JFrame {
 
-
-
-    private static final int DEFAULT_WIDTH = 600;
-    private static final int DEFAULT_HEIGHT = 300;
-
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
     private JPanel mainLeft;
     private JPanel mainRight;
     private JPanel mainJP;
@@ -38,6 +29,9 @@ public class AdminInterface extends JFrame {
     private JPanel bookJP;
     private JPanel cancJP;
     private JButton cancButt;
+
+    private static final int DEFAULT_WIDTH = 600;
+    private static final int DEFAULT_HEIGHT = 300;
 
     public AdminInterface() {
 
@@ -92,6 +86,7 @@ public class AdminInterface extends JFrame {
 
                 if (i == 0) {
                     Rooms.deleteRoom(selectedRoom);
+                    Bookings.deleteByIdShow(Showings.getShowingByIdRoom(selectedRoom));
                     refresh();
                 }
             }
@@ -142,21 +137,9 @@ public class AdminInterface extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() ->
-        {
-            AdminInterface frame = new AdminInterface();
-            frame.setContentPane(new AdminInterface().mainJP);
-            frame.setVisible(true);
-
-        });
-    }
-
     public void refresh(){
         ToolsGUI.fillComboBoxTitle(moviesComBox,roomsComBox);
     }
-
-
     private void setInsideSize(){
         ToolsGUI.setJPanel(mainLeft,420,190);
         ToolsGUI.setJPanel(mainRight,100,190);
@@ -178,7 +161,15 @@ public class AdminInterface extends JFrame {
                 "alert", JOptionPane.OK_CANCEL_OPTION);
         return result;
     }
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() ->
+        {
+            AdminInterface frame = new AdminInterface();
+            frame.setContentPane(new AdminInterface().mainJP);
+            frame.setVisible(true);
 
+        });
+    }
 
 
 }
