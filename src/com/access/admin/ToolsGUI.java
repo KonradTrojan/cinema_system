@@ -5,7 +5,10 @@ import com.sun.crypto.provider.JceKeyStore;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Timestamp;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public abstract class ToolsGUI {
     public static void setJPanel(JPanel jp, int weight, int height){
@@ -25,6 +28,8 @@ public abstract class ToolsGUI {
         int screenHeight = screenSize.height;
         jFrame.setLocation(screenWidth / 2 - defaultWeight / 2, screenHeight / 2 - defaultHeight / 2);
         jFrame.setMinimumSize(new Dimension(defaultWeight,defaultHeight));
+        jFrame.setMaximumSize(new Dimension(defaultWeight,defaultHeight));
+        jFrame.setPreferredSize(new Dimension(defaultWeight,defaultHeight));
         jFrame.setTitle(title);
         jFrame.setResizable(false);
         jFrame.pack();
@@ -107,5 +112,33 @@ public abstract class ToolsGUI {
     }
     private static String timeToString(Timestamp timestamp){
         return timestamp.toString().substring(11,16);
+    }
+
+    public static ArrayList<Integer> numberOfDaysInComBox(JComboBox selMonthCB) {
+        ArrayList<Integer> daysOfMonth = new ArrayList<>();
+        int selectedIndex = selMonthCB.getSelectedIndex();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"));
+        if ((int) selMonthCB.getItemAt(selectedIndex) == calendar.get(Calendar.MONTH) + 1) {
+            YearMonth yearMonth = YearMonth.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+            for (int i = calendar.get(Calendar.DAY_OF_MONTH); i < yearMonth.lengthOfMonth(); i++) {
+                daysOfMonth.add(i);
+            }
+        } else if ((int) selMonthCB.getItemAt(selectedIndex) == 1 || (int) selMonthCB.getItemAt(selectedIndex) == 3 ||
+                (int) selMonthCB.getItemAt(selectedIndex) == 5 || (int) selMonthCB.getItemAt(selectedIndex) == 7 ||
+                (int) selMonthCB.getItemAt(selectedIndex) == 8 || (int) selMonthCB.getItemAt(selectedIndex) == 10 ||
+                (int) selMonthCB.getItemAt(selectedIndex) == 12) {
+            for (int i = 1; i < 32; i++) {
+                daysOfMonth.add(i);
+            }
+        } else if ((int) selMonthCB.getItemAt(selectedIndex) == 2) {
+            for (int i = 1; i < 29; i++) {
+                daysOfMonth.add(i);
+            }
+        } else {
+            for (int i = 1; i < 31; i++) {
+                daysOfMonth.add(i);
+            }
+        }
+        return daysOfMonth;
     }
 }

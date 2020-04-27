@@ -78,10 +78,10 @@ public class DeleteShowing extends JFrame {
         });
     }
     private void refreshSelDayCB(){
-        ToolsGUI.refreshSelDayCB(selDayCB,selTitleCB,selRoomCB,idShowings);
+        idShowings = ToolsGUI.refreshSelDayCB(selDayCB,selTitleCB,selRoomCB,idShowings);
     }
     private void refreshSelHourCB(){
-        ToolsGUI.refreshSelHourCB(selDayCB,selTitleCB,selRoomCB,selHourCB,selectedIdShowings);
+        selectedIdShowings = ToolsGUI.refreshSelHourCB(selDayCB,selTitleCB,selRoomCB,selHourCB,selectedIdShowings);
     }
     private void loadTitleAndRoomCB(){
         for (String movie : Movies.getTitles()) {

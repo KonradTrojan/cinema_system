@@ -17,10 +17,6 @@ import java.sql.Statement;
 import java.util.Objects;
 
 public class AddMovie extends JFrame{
-
-
-    private static final int DEFAULT_WIDTH = 400;
-    private static final int DEFAULT_HEIGHT = 300;
     private JTextField titleJTXT;
     private JTextField descJTXT;
     private JButton addMovieJButt;
@@ -35,6 +31,8 @@ public class AddMovie extends JFrame{
     private JButton addPosterButt;
     private JFileChooser jFileChooser;
     private File selectedPoster = null;
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
 
     public AddMovie(AdminInterface adminInterface)  {
         ToolsGUI.setSizeJFrame(AddMovie.this,mainAddMovJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie seansów");

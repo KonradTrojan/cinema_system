@@ -6,38 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditRoom extends JFrame{
-
-    private static final int DEFAULT_WIDTH = 300;
-    private static final int DEFAULT_HEIGHT = 150;
-
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
-
     private JPanel mainEditRoomJP;
     private JButton confButt;
     private JButton anulujButton;
     private JTextField idRoomJTXT;
     private JTextField numRowsJTXT;
     private JTextField numSeatJTXT;
-
     private int idSelectedRoom;
+    private static final int DEFAULT_WIDTH = 320;
+    private static final int DEFAULT_HEIGHT = 180;
 
     public EditRoom(Integer idRoom, AdminInterface adminInterface){
         this.idSelectedRoom = idRoom;
-        setContentPane(mainEditRoomJP);
 
-        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
-                screenHeight/2 - DEFAULT_HEIGHT/2);
-
-        setResizable(false);
-        mainEditRoomJP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        setTitle("Edycja sali");
-
-        pack();
-        setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-
+        ToolsGUI.setSizeJFrame(EditRoom.this,mainEditRoomJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Edycja sal");
 
         Integer numOfRows = Rooms.getNumOfRows(idRoom);
         Integer numOfSeats = Rooms.getNumOfSeats(idRoom);

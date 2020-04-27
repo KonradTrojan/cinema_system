@@ -26,14 +26,17 @@ public class ShowBookings extends JFrame{
     private DefaultListModel dlm = new DefaultListModel();
 
     private JScrollPane scrollPane;
+    private JPanel buttonsJP;
+    private JPanel comboxsJP;
 
-    private static final int DEFAULT_WIDTH = 1000;
-    private static final int DEFAULT_HEIGHT = 350;
+    private static final int DEFAULT_WIDTH = 1150;
+    private static final int DEFAULT_HEIGHT = 300;
 
     public ShowBookings() {
-        ToolsGUI.setSizeJFrame(ShowBookings.this,mainShow,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Seanse");
-        ToolsGUI.setJPanel(leftJP,245,340);
-        ToolsGUI.setJPanel(rightJP,745,340);
+        ToolsGUI.setSizeJFrame(ShowBookings.this,mainShow,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Rezerwacje");
+        ToolsGUI.setJPanel(buttonsJP,245,90);
+        ToolsGUI.setJPanel(comboxsJP,245,90);
+        ToolsGUI.setJPanel(rightJP,745,160);
         ToolsGUI.fillComboBoxTitle(selTitleCB,selRoomCB);
         refreshSelDayCB();
         refreshSelHourCB();

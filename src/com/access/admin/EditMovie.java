@@ -9,15 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class EditMovie extends JFrame {
-
-    private static final int DEFAULT_WIDTH = 400;
-    private static final int DEFAULT_HEIGHT = 300;
-
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
-
     private JPanel mainEditJP;
     private JButton confButt;
     private JButton cancButt;
@@ -33,31 +24,13 @@ public class EditMovie extends JFrame {
     private File selectedPoster;
     Integer idMovie;
 
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
+
     public EditMovie(Integer idMovie, AdminInterface adminInterface){
-        setContentPane(mainEditJP);
-
-        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
-                screenHeight/2 - DEFAULT_HEIGHT/2);
-
-        setResizable(false);
-        setTitle("Edycja filmu");
-        pack();
-
-        mainEditJP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-
-        pack();
+        ToolsGUI.setSizeJFrame(EditMovie.this,mainEditJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Edycja filmu");
         this.idMovie = idMovie;
-        titleJTXT.setText(Movies.getTitle(idMovie));
-        starsJTXT.setText(Movies.getStars(idMovie));
-        descrJTXT.setText(Movies.getDescription(idMovie));
-        ageCatJTXT.setText(Movies.getAgeCategory(idMovie));
-        wriJTXT.setText(Movies.getWriter(idMovie));
-        lengJTXT.setText(Movies.getLength(idMovie));
-        dirJTXT.setText(Movies.getDirector(idMovie));
-        loadedPoster = Movies.getPoster(idMovie);
-
+        refresh();
         confButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -14,15 +14,6 @@ import java.util.TimeZone;
 
 public class AddShowing extends JFrame{
 
-    private static final int DEFAULT_WIDTH = 400;
-    private static final int DEFAULT_HEIGHT = 300;
-
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
-
-    int latestBooking = 14; // number of days from today, in which one can make booking
     private JPanel mainAddShow;
     private JButton addShowButt;
     private JButton CancButt;
@@ -36,6 +27,9 @@ public class AddShowing extends JFrame{
     private JComboBox selMonthCB;
     private JComboBox selYearCB;
     private JComboBox selFormDimCB;
+
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
 
     public AddShowing(){
         ToolsGUI.setSizeJFrame(AddShowing.this,mainAddShow,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie filmóe");
@@ -160,37 +154,9 @@ public class AddShowing extends JFrame{
 
     }
 
-    public ArrayList<Integer> numberOfDaysInComBox(){
-        ArrayList<Integer> daysOfMonth = new ArrayList<>();
-        int selectedIndex = selMonthCB.getSelectedIndex();
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"));
-        if((int)selMonthCB.getItemAt(selectedIndex) == calendar.get(Calendar.MONTH)+1){
-            YearMonth yearMonth = YearMonth.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
-            for(int i = calendar.get(Calendar.DAY_OF_MONTH); i<yearMonth.lengthOfMonth();i++){
-                daysOfMonth.add(i);
-            }
-        } else if((int)selMonthCB.getItemAt(selectedIndex) == 1 || (int)selMonthCB.getItemAt(selectedIndex) == 3 ||
-                (int)selMonthCB.getItemAt(selectedIndex) == 5 || (int)selMonthCB.getItemAt(selectedIndex) == 7 ||
-                (int)selMonthCB.getItemAt(selectedIndex) == 8 || (int)selMonthCB.getItemAt(selectedIndex) == 10 ||
-                (int)selMonthCB.getItemAt(selectedIndex) == 12){
-            for (int i = 1; i < 32;i++){
-                daysOfMonth.add(i);
-            }
-        }else if((int)selMonthCB.getItemAt(selectedIndex) == 2 ){
-            for (int i = 1; i < 29;i++){
-                daysOfMonth.add(i);
-            }
-        }else {
-            for (int i = 1; i < 31;i++){
-                daysOfMonth.add(i);
-            }
-        }
-        return daysOfMonth;
-    }
-
     public void refresh(){
         selDayCB.removeAllItems();
-        for (int day: numberOfDaysInComBox())
+        for (int day: ToolsGUI.numberOfDaysInComBox(selMonthCB))
             selDayCB.addItem(day);
     }
     private void completeCombobox(){
