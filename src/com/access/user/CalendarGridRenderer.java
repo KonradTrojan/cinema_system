@@ -96,7 +96,6 @@ public class CalendarGridRenderer implements GridRenderer {
 
             // first date
             JaretDate date = _tbv.getStartDate().copy();
-            // TODO
             if (date.getHours() == 23 && date.getMinutes() == 59) {
                 date.advanceSeconds(1);
             }

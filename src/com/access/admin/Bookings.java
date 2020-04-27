@@ -1,14 +1,31 @@
 package com.access.admin;
 
-import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class Bookings {
+
+    public static void addBooking(int idShowing, int seat, int row) {
+        try {
+            Connection connection = DBConn.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement("insert into bookings (idShowing, idUser, row, seat) " + "values(?, 0, ?, ?)");
+
+            statement.setInt(1, idShowing);
+            statement.setInt(2, row);
+            statement.setInt(3, seat);
+
+            statement.executeUpdate();
+            statement.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static ArrayList<String> getBookingsToString(int idShowing){
         try {
             Connection con = DBConn.getConnection();

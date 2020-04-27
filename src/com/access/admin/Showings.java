@@ -2,7 +2,6 @@ package com.access.admin;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public abstract class Showings {
     public static int getRoomId(int id) {
@@ -100,6 +99,23 @@ public abstract class Showings {
 
     public static int getNumberOfShowings() {
         return getAllShowings().size();
+    }
+
+    public static ArrayList<Integer> getAllShowingsByMovie(int idMovie) {
+        ArrayList<Integer> showings = new ArrayList<Integer>();
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idScreenings FROM filmScreenings WHERE idmovie=" + idMovie);
+            while (rs.next()) {
+                showings.add(rs.getInt("idScreenings"));
+            }
+            stmt.close();
+            return showings;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return showings;
     }
 
     public static ArrayList<Integer> getShowingsByMovieAndRoom(int idMovie, int idRoom) {

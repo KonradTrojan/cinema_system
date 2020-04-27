@@ -43,6 +43,11 @@ public class CalendarModel extends DefaultTimeBarModel {
         return -1;
     }
 
+    public void createDay(JaretDate date) {
+        Day day = new Day(date);
+        addRow(day);
+    }
+
     /**
      * Create empty days for the given month. The method assumes that the existing days are present without gaps.
      *
