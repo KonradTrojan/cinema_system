@@ -79,11 +79,11 @@ public abstract class Rooms {
 
     }
 
-    public static void editRoom(int idRoom, int newIdRoom, int numOfRows, int numOfSeats){
+    public static void editRoom(int oldIdRoom, int newIdRoom, int numOfRows, int numOfSeats){
         Connection conn = DBConn.getConnection();
         PreparedStatement statement = null;
 
-        String sql = "UPDATE rooms SET idRoom=?, numOfRows=?, numOfSeats=? WHERE idRoom="+idRoom;
+        String sql = "UPDATE rooms SET idRoom=?, numOfRows=?, numOfSeats=? WHERE idRoom="+oldIdRoom;
         try {
             statement = conn.prepareStatement(sql);
 
@@ -130,6 +130,7 @@ public abstract class Rooms {
             }
         }
     }
+
 
 
 }

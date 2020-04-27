@@ -9,8 +9,8 @@ public class AdminInterface extends JFrame {
 
 
 
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 600;
+    private static final int DEFAULT_HEIGHT = 300;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -32,25 +32,23 @@ public class AdminInterface extends JFrame {
     private JButton deleteRoomButt;
     private JComboBox roomsComBox;
     private JButton showBookings;
+    private JPanel moviesJP;
+    private JPanel showJP;
+    private JPanel roomJP;
+    private JPanel bookJP;
+    private JPanel cancJP;
+    private JButton cancButt;
 
     public AdminInterface() {
 
-        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
-                    screenHeight/2 - DEFAULT_HEIGHT/2);
-
-        setResizable(false);
-        setTitle("Panel administratora");
-
-        pack();
-        setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ToolsGUI.setSizeJFrame(AdminInterface.this,mainJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Panel administratora");
+        setInsideSize();
         refresh();
-
 
         addMovieButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddMovie addMovie = new AddMovie();
+                AddMovie addMovie = new AddMovie(AdminInterface.this);
                 setVisible(false);
                 addMovie.setVisible(true);
             }
@@ -60,14 +58,10 @@ public class AdminInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedIndex = moviesComBox.getSelectedIndex();
                 String selectedTitle = (String) moviesComBox.getItemAt(selectedIndex);
-
                 int i = okcancel("Czy na pewno chcesz usunąć film z bazy danych? ");
-
                 if(i == 0)
                     Movies.deleteMovie(selectedTitle);
-
                 refresh();
-
             }
         });
         editMovieButt.addActionListener(new ActionListener() {
@@ -81,7 +75,7 @@ public class AdminInterface extends JFrame {
                 for (Integer id : Movies.getAllMovies()){
                     if (selectedTitle.equals(Movies.getTitle(id))) {
                         selectedIdMovie = id;
-                        EditMovie editMovie = new EditMovie(selectedIdMovie);
+                        EditMovie editMovie = new EditMovie(selectedIdMovie,AdminInterface.this);
                         editMovie.setVisible(true);
                     }
                 }
@@ -108,7 +102,7 @@ public class AdminInterface extends JFrame {
                 int selectedIndexRoomCB = roomsComBox.getSelectedIndex();
                 int selectedRoom = (int) roomsComBox.getItemAt(selectedIndexRoomCB);
 
-                EditRoom editRoom = new EditRoom(selectedRoom);
+                EditRoom editRoom = new EditRoom(selectedRoom,AdminInterface.this);
                 editRoom.setVisible(true);
             }
         });
@@ -140,38 +134,43 @@ public class AdminInterface extends JFrame {
                 showBookings.setVisible(true);
             }
         });
+        cancButt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     public static void main(String[] args) {
-        // poniższy kod wykonuje instrukcje w wątku dystrubucji zdarzeń
         EventQueue.invokeLater(() ->
         {
             AdminInterface frame = new AdminInterface();
             frame.setContentPane(new AdminInterface().mainJP);
             frame.setVisible(true);
 
-
-
-
         });
     }
 
     public void refresh(){
-        fillComboBoxTitle();
+        ToolsGUI.fillComboBoxTitle(moviesComBox,roomsComBox);
     }
 
-    public void fillComboBoxTitle() {
-        moviesComBox.removeAllItems();
-        for (String title : Movies.getTitles()){
-            moviesComBox.addItem(title);
-        }
 
-        roomsComBox.removeAllItems();
-        for (Integer idRoom : Rooms.getAllRooms()){
-            roomsComBox.addItem(idRoom);
-        }
+    private void setInsideSize(){
+        ToolsGUI.setJPanel(mainLeft,420,190);
+        ToolsGUI.setJPanel(mainRight,100,190);
+        ToolsGUI.setJPanel(moviesJP,400,80);
+        ToolsGUI.setJPanel(showJP,400,80);
+        ToolsGUI.setJPanel(roomJP,100,180);
+        ToolsGUI.setJPanel(bookJP,400,30);
+        ToolsGUI.setJPanel(cancJP,100,20);
+        mainRight.setBackground(Color.white);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        refresh();
     }
-
 
 
     public static int okcancel(String theMessage) {

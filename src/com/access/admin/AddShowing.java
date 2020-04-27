@@ -14,8 +14,8 @@ import java.util.TimeZone;
 
 public class AddShowing extends JFrame{
 
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -38,17 +38,7 @@ public class AddShowing extends JFrame{
     private JComboBox selFormDimCB;
 
     public AddShowing(){
-        setContentPane(mainAddShow);
-
-        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
-                screenHeight/2 - DEFAULT_HEIGHT/2);
-
-        setResizable(false);
-        setTitle("Dodawanie seansu");
-
-        pack();
-        setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-
+        ToolsGUI.setSizeJFrame(AddShowing.this,mainAddShow,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie filmóe");
         loadData();
 
         CancButt.addActionListener(new ActionListener() {

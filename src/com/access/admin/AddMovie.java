@@ -19,14 +19,8 @@ import java.util.Objects;
 public class AddMovie extends JFrame{
 
 
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
-
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
-
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
     private JTextField titleJTXT;
     private JTextField descJTXT;
     private JButton addMovieJButt;
@@ -42,19 +36,8 @@ public class AddMovie extends JFrame{
     private JFileChooser jFileChooser;
     private File selectedPoster = null;
 
-    public AddMovie()  {
-
-        setContentPane(mainAddMovJP);
-
-        setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
-                screenHeight/2 - DEFAULT_HEIGHT/2);
-
-        setResizable(false);
-        setTitle("Dodawanie filmu");
-
-        pack();
-        setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
-
+    public AddMovie(AdminInterface adminInterface)  {
+        ToolsGUI.setSizeJFrame(AddMovie.this,mainAddMovJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie seansów");
 
         addMovieJButt.addActionListener(new ActionListener() {
             @Override
@@ -103,6 +86,7 @@ public class AddMovie extends JFrame{
 
                         JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Błąd",
                                 JOptionPane.INFORMATION_MESSAGE);
+                        adminInterface.refresh();
                     }
                 }
             }
@@ -141,20 +125,5 @@ public class AddMovie extends JFrame{
                 dispose();
             }
         });
-    }
-
-    public static void main(String[] args) {
-        FileInputStream inputStream = null;
-        File image = new File("src/com/access/admin/image/brak.png");
-        try {
-            inputStream = new FileInputStream(image);
-
-        } catch (FileNotFoundException fileNotFoundException) {
-            fileNotFoundException.printStackTrace();
-        }
-
-        System.out.println(inputStream);
-
-
     }
 }

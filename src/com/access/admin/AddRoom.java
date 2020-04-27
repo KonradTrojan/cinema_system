@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddRoom extends JFrame{
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 300;
+    private static final int DEFAULT_HEIGHT = 150;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -30,8 +30,8 @@ public class AddRoom extends JFrame{
                 screenHeight/2 - DEFAULT_HEIGHT/2);
 
         setResizable(false);
-        setTitle("Panel administratora");
-
+        setTitle("Dodawanie sali");
+        mainAddRoomJP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         pack();
         setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
 

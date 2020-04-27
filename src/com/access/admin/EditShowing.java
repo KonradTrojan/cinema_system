@@ -12,8 +12,8 @@ import java.util.Calendar;
 
 public class EditShowing extends JFrame{
 
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -34,7 +34,9 @@ public class EditShowing extends JFrame{
         setContentPane(mainEditJP);
         setLocation(screenWidth / 2 - DEFAULT_WIDTH / 2, screenHeight / 2 - DEFAULT_HEIGHT / 2);
         pack();
-        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        mainEditJP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+
 
         for (String movie : Movies.getTitles()) {
             selTitleCB.addItem(movie);

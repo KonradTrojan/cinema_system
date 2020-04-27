@@ -10,8 +10,8 @@ import java.io.File;
 
 public class EditMovie extends JFrame {
 
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 300;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -33,18 +33,21 @@ public class EditMovie extends JFrame {
     private File selectedPoster;
     Integer idMovie;
 
-    public EditMovie(Integer idMovie){
+    public EditMovie(Integer idMovie, AdminInterface adminInterface){
         setContentPane(mainEditJP);
 
         setLocation(screenWidth/2 - DEFAULT_WIDTH/2 ,
                 screenHeight/2 - DEFAULT_HEIGHT/2);
 
         setResizable(false);
-        setTitle("Panel administratora");
-
+        setTitle("Edycja filmu");
         pack();
+
+        mainEditJP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
         setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
 
+        pack();
         this.idMovie = idMovie;
         titleJTXT.setText(Movies.getTitle(idMovie));
         starsJTXT.setText(Movies.getStars(idMovie));
@@ -98,6 +101,8 @@ public class EditMovie extends JFrame {
 
                         JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Błąd",
                                 JOptionPane.INFORMATION_MESSAGE);
+
+                        adminInterface.refresh();
                     }
                 }
             }

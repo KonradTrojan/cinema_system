@@ -241,7 +241,17 @@ public abstract class Showings {
             return true;
         }
     }
-
+    public static void editRoomId(int oldRoomId, int newRoomId) {
+        try {
+            Connection conn = DBConn.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("UPDATE filmScreenings SET idRoom=? WHERE idRoom=" + oldRoomId);
+            stmt.setInt(1, newRoomId);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
 
     }

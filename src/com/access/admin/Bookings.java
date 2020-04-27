@@ -1,6 +1,9 @@
 package com.access.admin;
 
+import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,9 +15,9 @@ public abstract class Bookings {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM bookings WHERE idShowing=" + idShowing);
             ArrayList<String> bookings = new ArrayList<>();
-            String booking = null;
+            String booking;
             while (rs.next()) {
-                booking =  rs.getInt("idBooking") + ", Nr seansu: " +
+                booking =  rs.getInt("idBooking") + ",\t\t Nr seansu: " +
                 rs.getInt("idShowing") +", Nr klienta: " + rs.getInt("idUser")+
                 ", Sala: "+Showings.getRoomId(rs.getInt("idShowing")) + ", Rząd: " +
                 rs.getInt("row") + ", Miejsce: " + rs.getInt("seat") +
@@ -39,4 +42,36 @@ public abstract class Bookings {
             e.printStackTrace();
         }
     }
+    public static void deleteByIdShow(int idShow){
+        try {
+            Connection conn = DBConn.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM bookings WHERE idShowing=" +idShow);
+            stmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Integer> getAllBookings(int idShow) {
+        ArrayList<Integer> x = new ArrayList<Integer>();
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT idBooking FROM bookings WHERE idShowing="+idShow);
+            while (rs.next()) {
+                x.add(rs.getInt("idBooking"));
+            }
+            stmt.close();
+            return x;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+    public static int getNumberOfMovies(int idShow) {
+        return getAllBookings(idShow).size();
+    }
+
+
 }

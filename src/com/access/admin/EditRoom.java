@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 public class EditRoom extends JFrame{
 
-    private static final int DEFAULT_WIDTH = 805;
-    private static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 300;
+    private static final int DEFAULT_HEIGHT = 150;
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -24,7 +24,7 @@ public class EditRoom extends JFrame{
 
     private int idSelectedRoom;
 
-    public EditRoom(Integer idRoom){
+    public EditRoom(Integer idRoom, AdminInterface adminInterface){
         this.idSelectedRoom = idRoom;
         setContentPane(mainEditRoomJP);
 
@@ -32,7 +32,8 @@ public class EditRoom extends JFrame{
                 screenHeight/2 - DEFAULT_HEIGHT/2);
 
         setResizable(false);
-        setTitle("Panel administratora");
+        mainEditRoomJP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        setTitle("Edycja sali");
 
         pack();
         setMinimumSize(new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT));
@@ -78,10 +79,30 @@ public class EditRoom extends JFrame{
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     Rooms.editRoom(idSelectedRoom, newIdRoom, Integer.parseInt(numRowsJTXT.getText()), Integer.parseInt(numSeatJTXT.getText()));
+                    Showings.editRoomId(idSelectedRoom,newIdRoom);
+                    adminInterface.refresh();
                     JOptionPane.showMessageDialog(new JFrame(), "Zmiana została zapisana pomyślnie w bazie danych", "Komuniakt",
                             JOptionPane.INFORMATION_MESSAGE);
+
                 }
             }
         });
+    }
+
+    public static void main(String[] args) {
+
+            String subject[] = { "Math", " English", "SQL", "   java", "  c ", " c++ ",
+                    " cobol ", "this is a test" };
+            JFrame f = new JFrame();
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JList<String> list = new JList<String>(subject);
+            JScrollPane s = new JScrollPane(list);
+            s.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+            f.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
+            f.add(s);
+            f.setSize(300, 300);
+            f.setVisible(true);
     }
 }
