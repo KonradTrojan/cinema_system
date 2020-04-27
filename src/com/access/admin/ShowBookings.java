@@ -110,7 +110,7 @@ public class ShowBookings extends JFrame{
 
 
                 ArrayList<String> bookings = Bookings.getBookingsToString(idShow);
-                Timestamp timestamp = Showings.getDate(idShow);
+                Timestamp timestamp = Showings.getDateStart(idShow);
                 String date = ", Dzień: " + timestamp.toString().substring(0, 10) +
                         ", Godzina: " + timestamp.toString().substring(11, 16);
                 for (String booking : bookings)

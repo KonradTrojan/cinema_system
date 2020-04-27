@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 class MovieButton extends JButton {
     int movieId;
-
     public MovieButton(String text) {
         super(text);
     }
@@ -33,7 +32,7 @@ public class MovieChooser {
         JScrollPane scrollBar = new JScrollPane(f, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollBar.getVerticalScrollBar().setUnitIncrement(16);
         f.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ImageIcon img = new ImageIcon("favicon.jpg");
         mainFrame.setIconImage(img.getImage());
         mainFrame.add(scrollBar);
@@ -123,21 +122,6 @@ public class MovieChooser {
         bC.anchor = GridBagConstraints.NORTH;
         bC.fill = GridBagConstraints.BOTH;
         f.add(chooseButton, bC);
-        /*if (xshift == 0 && index != Movies.getNumberOfMovies() - 1) {
-            //separator
-            JPanel separator = new JPanel();
-            separator.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            //JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-            //separator.setPreferredSize(new Dimension(0, 10));
-            GridBagConstraints sepC = new GridBagConstraints();
-            sepC.gridx = 0;
-            sepC.gridy = 3 + (index / 3) * 4;
-            sepC.ipady = 0;
-            sepC.gridwidth = 6;
-            //sepC.anchor = GridBagConstraints.CENTER;
-            sepC.fill = GridBagConstraints.HORIZONTAL;
-            f.add(separator, sepC);
-        }*/
         chooseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

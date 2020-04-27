@@ -1,7 +1,5 @@
 package com.access.admin;
 
-import com.sun.crypto.provider.JceKeyStore;
-
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Timestamp;
@@ -51,7 +49,7 @@ public abstract class ToolsGUI {
             selHourCB.removeAllItems();
             selectedIdShowings = new ArrayList<>();
             for (Integer idShow : showings) {
-                timestamp = Showings.getDate(idShow);
+                timestamp = Showings.getDateStart(idShow);
                 if (ToolsGUI.timeIsntInHourComBox(timestamp, selHourCB)) {
                     selHourCB.addItem(ToolsGUI.timeToString(timestamp));
                     selectedIdShowings.add(idShow);
@@ -69,10 +67,10 @@ public abstract class ToolsGUI {
         int idRoom = (int) selRoomCB.getItemAt(selectedIndex);
 
         Timestamp timestamp;
-        idShowings = Showings.getShowings(idMovie,idRoom);
+        idShowings = Showings.getShowingsByMovieAndRoom(idMovie,idRoom);
         selDayCB.removeAllItems();
         for (Integer idShow : idShowings){
-            timestamp = Showings.getDate(idShow);
+            timestamp = Showings.getDateStart(idShow);
             if(dateIsntInDayComBox(timestamp,selDayCB))
                 selDayCB.addItem(dateToString(timestamp));
         }
