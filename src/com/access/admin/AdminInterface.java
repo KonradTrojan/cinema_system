@@ -75,7 +75,6 @@ public class AdminInterface extends JFrame {
                 }
             }
         });
-
         deleteRoomButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
