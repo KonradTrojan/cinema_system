@@ -90,7 +90,15 @@ public class AddShowing extends JFrame{
 
                     selectedIndex = selNumberOfReCB.getSelectedIndex();
                     if(selectedIndex == 0)
-                        Showings.addShowing(idMovie,idroom,format,start,end);
+                        if(Showings.roomIsFree(idroom,start,end)) {
+                            Showings.addShowing(idMovie, idroom, format, start, end);
+                            JOptionPane.showMessageDialog(new JFrame(), "Wpis pomyślnie dodany do bazy danych.", "Komunikat",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }else {
+                            JOptionPane.showMessageDialog(new JFrame(), "W sali nr " + idroom + " w dniu " +
+                                            start.toString().substring(0, 10) + " jest grany film.", "Komunikat",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
                     else
                         repeatedAdd(idMovie,idroom,format,start,end);
 
@@ -149,10 +157,16 @@ public class AddShowing extends JFrame{
             selRoomCB.addItem(idRoom);
 
         for (int i = 0; i < 24; i++){
-            selHourCB.addItem(i+1);
+            if(i<10)
+                selHourCB.addItem("0"+i);
+            else
+                selHourCB.addItem(i);
         }
         for (int i = 0; i < 12; i++){
-            selMinutCB.addItem(i*5);
+            if(i<2)
+                selMinutCB.addItem("0"+i*5);
+            else
+                selMinutCB.addItem(i*5);
         }
         selFormSoundCB.addItem("Napisy");
         selFormSoundCB.addItem("Dubbing");
@@ -162,7 +176,7 @@ public class AddShowing extends JFrame{
         selFormDimCB.addItem("3D");
 
         selDayOrWeek.addItem("dni");
-        selDayOrWeek.addItem("tygodni");
+        selDayOrWeek.addItem("tygodnie");
         loadNumberOfDayCB();
 
     }
@@ -175,7 +189,7 @@ public class AddShowing extends JFrame{
                 for(int i = 0;i<=7;i++)
                     selNumberOfReCB.addItem(i);
                 break;
-            case "tygodni":
+            case "tygodnie":
                 for(int i = 0;i<=4;i++)
                     selNumberOfReCB.addItem(i);
                 break;
@@ -190,11 +204,11 @@ public class AddShowing extends JFrame{
         selectedIndex = selNumberOfReCB.getSelectedIndex();
         int numberOfRepeats = (int) selNumberOfReCB.getItemAt(selectedIndex);
 
-        long timeInterval;
-        if (dayOrWeek.equals("dni"))
-            timeInterval = MILISECONDS_IN_DAY;
-        else
-            timeInterval = MILISECONDS_IN_WEEK;
+        long timeInterval = MILISECONDS_IN_DAY;
+        if (dayOrWeek.equals("tygodnie"))
+            numberOfRepeats = numberOfRepeats*7;
+
+        Showings.addShowing(idMovie, idRoom, format, start, end);
 
         for (int i = 0; i < numberOfRepeats; i++) {
             start.setTime(start.getTime() +  timeInterval);
@@ -209,11 +223,5 @@ public class AddShowing extends JFrame{
         }
         JOptionPane.showMessageDialog(new JFrame(), "Wpisy pomyślnie dodane do bazy danych.", "Komunikat",
                             JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public static void main(String[] args) {
-        String a = "02";
-        int i = Integer.parseInt(a);
-        System.out.println(i);
     }
 }

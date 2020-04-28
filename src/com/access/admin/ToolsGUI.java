@@ -35,11 +35,14 @@ public abstract class ToolsGUI {
     }
 
     public static ArrayList<Integer> refreshSelHourCB(JComboBox selDayCB, JComboBox selTitleCB, JComboBox selRoomCB, JComboBox selHourCB, ArrayList<Integer> selectedIdShowings){
-        if(selDayCB.getItemCount() != 0) {
+        selHourCB.removeAllItems();
+        if(selDayCB.getItemCount() > 0) {
             int selectedIndex = selTitleCB.getSelectedIndex();
             String title = (String) selTitleCB.getItemAt(selectedIndex);
+
             int idMovie = Movies.getId(title);
             selectedIndex = selRoomCB.getSelectedIndex();
+
             int idRoom = (int) selRoomCB.getItemAt(selectedIndex);
             selectedIndex = selDayCB.getSelectedIndex();
             String selectedDate = selDayCB.getItemAt(selectedIndex).toString();
@@ -142,7 +145,8 @@ public abstract class ToolsGUI {
 
     public static int getSelectedIndexOfCB(JComboBox jComboBox){
         int selectedIndex = jComboBox.getSelectedIndex();
-        return (int)jComboBox.getItemAt(selectedIndex);
+
+        return Integer.parseInt(jComboBox.getItemAt(selectedIndex).toString());
     }
 
 

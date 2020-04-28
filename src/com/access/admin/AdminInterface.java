@@ -14,7 +14,6 @@ public class AdminInterface extends JFrame {
     private JButton removeMovieButt;
     private JButton editMovieButt;
     private JComboBox moviesComBox;
-    private JButton pokażHarmonogramSeansówButton;
     private JButton usuńSeansButton1;
     private JButton edytujSeansButton;
     private JButton addShowButt;
@@ -143,7 +142,7 @@ public class AdminInterface extends JFrame {
         ToolsGUI.setJPanel(mainLeft,420,190);
         ToolsGUI.setJPanel(mainRight,100,190);
         ToolsGUI.setJPanel(moviesJP,400,80);
-        ToolsGUI.setJPanel(showJP,400,80);
+        ToolsGUI.setJPanel(showJP,400,60);
         ToolsGUI.setJPanel(roomJP,100,180);
         ToolsGUI.setJPanel(bookJP,400,30);
         ToolsGUI.setJPanel(cancJP,100,20);
