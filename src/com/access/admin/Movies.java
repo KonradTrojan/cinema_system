@@ -50,7 +50,7 @@ public abstract class Movies {
         try {
             Connection con = DBConn.getConnection();
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM movies WHERE title='" + title+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM movies WHERE title='" + title + "'");
             int id = 0;
             if (rs.next()) {
                 id = rs.getInt("idMovie");
@@ -254,7 +254,8 @@ public abstract class Movies {
             }
         }
     }
-    public static void deleteMovie(String deletedTitle){
+
+    public static void deleteMovie(String deletedTitle) {
         Connection connection = DBConn.getConnection();
         PreparedStatement statement = null;
         String sql_ = "DELETE FROM movies WHERE title =? ";
@@ -262,10 +263,10 @@ public abstract class Movies {
         try {
             Showings.deleteShowingByMovie(Movies.getId(deletedTitle));
             statement = connection.prepareStatement(sql_);
-            statement.setString(1,deletedTitle);
+            statement.setString(1, deletedTitle);
             statement.executeUpdate();
 
-        }catch (SQLException ek) {
+        } catch (SQLException ek) {
             System.out.println("SQLException: - " + ek);
         } finally {
             try {
@@ -276,32 +277,33 @@ public abstract class Movies {
         }
 
     }
+
     // editMovie for edit with poster
     public static void editMovie(int idMovie, String title, String description,
                                  int length, String director, String writer,
-                                 String stars, String ageCategory, File poster){
+                                 String stars, String ageCategory, File poster) {
         Connection connection = DBConn.getConnection();
         PreparedStatement statement = null;
         FileInputStream inputStream = null;
 
         String sql = "UPDATE movies set title=?, length=?,description=?,director=?," +
-                "writer=?,ageCategory=?,stars=?,poster=? WHERE idMovie="+idMovie;
+                "writer=?,ageCategory=?,stars=?,poster=? WHERE idMovie=" + idMovie;
 
         try {
             statement = connection.prepareStatement(sql);
             inputStream = new FileInputStream(poster);
-            statement.setString(1,title);
-            statement.setInt(2,length);
-            statement.setString(3,description);
-            statement.setString(4,director);
-            statement.setString(5,writer);
-            statement.setString(6,ageCategory);
-            statement.setString(7,stars);
+            statement.setString(1, title);
+            statement.setInt(2, length);
+            statement.setString(3, description);
+            statement.setString(4, director);
+            statement.setString(5, writer);
+            statement.setString(6, ageCategory);
+            statement.setString(7, stars);
             statement.setBinaryStream(8, (InputStream) inputStream, (int) (poster.length()));
             statement.executeUpdate();
-        }catch (FileNotFoundException ee) {
+        } catch (FileNotFoundException ee) {
             System.out.println("FileNotFoundException: - " + ee);
-        }catch (SQLException ek) {
+        } catch (SQLException ek) {
             System.out.println("SQLException: - " + ek);
         } finally {
             try {
@@ -311,28 +313,29 @@ public abstract class Movies {
             }
         }
     }
+
     // editMovie for edit without poster
     public static void editMovie(int idMovie, String title, String description,
                                  int length, String director, String writer,
-                                 String stars, String ageCategory){
+                                 String stars, String ageCategory) {
 
         Connection connection = DBConn.getConnection();
         PreparedStatement statement = null;
         FileInputStream inputStream = null;
 
         String sql_ = "UPDATE movies set title=?, length=?,description=?,director=?," +
-                "writer=?,ageCategory=?,stars=? WHERE idMovie="+idMovie;
+                "writer=?,ageCategory=?,stars=? WHERE idMovie=" + idMovie;
         try {
             statement = connection.prepareStatement(sql_);
-            statement.setString(1,title);
-            statement.setInt(2,length);
-            statement.setString(3,description);
-            statement.setString(4,director);
-            statement.setString(5,writer);
-            statement.setString(6,ageCategory);
-            statement.setString(7,stars);
+            statement.setString(1, title);
+            statement.setInt(2, length);
+            statement.setString(3, description);
+            statement.setString(4, director);
+            statement.setString(5, writer);
+            statement.setString(6, ageCategory);
+            statement.setString(7, stars);
             statement.executeUpdate();
-        }catch (SQLException ek) {
+        } catch (SQLException ek) {
             System.out.println("SQLException: - " + ek);
         } finally {
             try {
