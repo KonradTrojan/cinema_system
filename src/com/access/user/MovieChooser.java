@@ -43,8 +43,8 @@ public class MovieChooser {
         scrollBar.getVerticalScrollBar().setUnitIncrement(16);
         f.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon img = new ImageIcon("favicon.jpg");
-        mainFrame.setIconImage(img.getImage());
+        //ImageIcon img = new ImageIcon("favicon.jpg");
+        //mainFrame.setIconImage(img.getImage());
         mainFrame.add(scrollBar);
         mainFrame.pack();
         mainFrame.setResizable(false);
@@ -63,7 +63,6 @@ public class MovieChooser {
         else
             xshift = 4;
         //poster
-
         JLabel posterLabel = new JLabel(new ImageIcon(Movies.getPoster(movieid)));
         posterLabel.setBorder(BorderFactory.createTitledBorder("Plakat"));
         GridBagConstraints pC = new GridBagConstraints();

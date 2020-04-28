@@ -113,6 +113,7 @@ public class SeatChooser {
 
     private void rysuj() {
         f.setLayout(new GridBagLayout());
+        f.setResizable(false);
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
 

@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class Movies {
-
     public static String getTitle(int id) {
         try {
             Connection con = DBConn.getConnection();
