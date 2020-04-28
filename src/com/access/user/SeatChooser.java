@@ -216,6 +216,7 @@ public class SeatChooser {
                 }
                 f.dispose();
                 f = new JFrame("Wskaż miejsce");
+                MovieChooser x = new MovieChooser();
             }
         });
         c.gridx = 0;

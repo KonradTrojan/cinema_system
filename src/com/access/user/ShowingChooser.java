@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ShowingChooser{
+    MovieChooser previousWindow;
     private JFrame frame = new JFrame("Wybierz seans");
     private JComboBox showingsComboBox;
     private JButton toPlaceChooserButton;
     private JPanel mainPanel;
+    private JButton returnButton;
     private int movieId;
 
     private class CBItem {
@@ -41,7 +43,8 @@ public class ShowingChooser{
         }
     }
 
-    public ShowingChooser(int movieId) {
+    public ShowingChooser(int movieId, MovieChooser prev) {
+        this.previousWindow = prev;
         this.movieId = movieId;
         ArrayList<Integer> allShowings = Showings.getAllShowingsByMovie(movieId);
         for (int i = 0; i < allShowings.size(); i++) {
@@ -61,5 +64,12 @@ public class ShowingChooser{
         frame.pack();
         frame.setBounds(screenSize.width / 2 - (frame.getWidth() / 2), (screenSize.height / 2) - 700 / 2, frame.getWidth(), frame.getHeight());
         frame.setVisible(true);
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                previousWindow.returnWindow();
+            }
+        });
     }
 }

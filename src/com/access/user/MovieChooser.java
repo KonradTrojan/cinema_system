@@ -4,6 +4,7 @@ package com.access.user;
 
 import com.access.admin.Movies;
 import org.jdesktop.swingx.JXLabel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,12 +13,21 @@ import java.util.ArrayList;
 
 class MovieButton extends JButton {
     int movieId;
+
     public MovieButton(String text) {
         super(text);
     }
 }
 
 public class MovieChooser {
+    public MovieChooser() {
+        draw();
+    }
+
+    public void returnWindow() {
+        mainFrame.setVisible(true);
+    }
+
     private JFrame mainFrame = new JFrame("Wybór filmu");
     private JPanel f = new JPanel();
     private GridBagConstraints c = new GridBagConstraints();
@@ -111,7 +121,7 @@ public class MovieChooser {
         f.add(descriptionLabel, deC);
         //button
         MovieButton chooseButton = new MovieButton("Wybierz");
-        chooseButton.movieId=movieid;
+        chooseButton.movieId = movieid;
         GridBagConstraints bC = new GridBagConstraints();
         bC.gridx = 1 + xshift;
         bC.gridy = 3 + (index / 3) * 4;
@@ -125,7 +135,7 @@ public class MovieChooser {
         chooseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShowingChooser x = new ShowingChooser(chooseButton.movieId);
+                ShowingChooser x = new ShowingChooser(chooseButton.movieId, MovieChooser.this);
                 mainFrame.setVisible(false);
             }
         });
@@ -133,6 +143,5 @@ public class MovieChooser {
 
     public static void main(String[] args) {
         MovieChooser x = new MovieChooser();
-        x.draw();
     }
 }

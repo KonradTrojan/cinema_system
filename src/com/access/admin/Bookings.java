@@ -1,10 +1,9 @@
 package com.access.admin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public abstract class Bookings {
@@ -15,7 +14,7 @@ public abstract class Bookings {
             ResultSet rs = stmt.executeQuery("SELECT row_ FROM bookings WHERE idBooking=" + id);
             int row = 0;
             if (rs.next()) {
-                row = rs.getInt("row");
+                row = rs.getInt("row_");
             }
             stmt.close();
             return row;
@@ -45,7 +44,7 @@ public abstract class Bookings {
             Connection connection = DBConn.getConnection();
             
             PreparedStatement statement = connection.prepareStatement("INSERT INTO bookings (idShowing, idUser, row_, seat) " +
-                    "values(?,?,?,?)");
+                    "VALUES (?,?,?,?)");
 
             statement.setInt(1, idShowing);
             statement.setInt(2, 0);
@@ -70,7 +69,7 @@ public abstract class Bookings {
                 booking =  rs.getInt("idBooking") + ",\t\t Nr seansu: " +
                 rs.getInt("idShowing") +", Nr klienta: " + rs.getInt("idUser")+
                 ", Sala: "+Showings.getRoomId(rs.getInt("idShowing")) + ", Rząd: " +
-                rs.getInt("row") + ", Miejsce: " + rs.getInt("seat") +
+                rs.getInt("row_") + ", Miejsce: " + rs.getInt("seat") +
                 ", Dzień: ";
 
                 bookings.add(booking);
