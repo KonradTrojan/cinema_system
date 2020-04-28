@@ -35,7 +35,7 @@ public class AddMovie extends JFrame{
     private static final int DEFAULT_HEIGHT = 300;
 
     public AddMovie(AdminInterface adminInterface)  {
-        ToolsGUI.setSizeJFrame(AddMovie.this,mainAddMovJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie seansów");
+        ToolsGUI.setSizeJFrame(AddMovie.this,mainAddMovJP,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie filmów");
 
         addMovieJButt.addActionListener(new ActionListener() {
             @Override

@@ -107,6 +107,7 @@ public abstract class Movies {
             while (rs.next()) {
                 movies.add(rs.getString("title"));
             }
+            stmt.close();
             return movies;
         } catch (Exception e) {
             e.printStackTrace();

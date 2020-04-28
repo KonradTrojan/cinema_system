@@ -31,7 +31,6 @@ public class AddShowing extends JFrame{
     private JComboBox selDayOrWeek;
 
     private static final long MILISECONDS_IN_DAY = 86400000;
-    private static final long MILISECONDS_IN_WEEK = 604800000;
 
     private static final int DEFAULT_WIDTH = 400;
     private static final int DEFAULT_HEIGHT = 300;
@@ -206,22 +205,33 @@ public class AddShowing extends JFrame{
 
         long timeInterval = MILISECONDS_IN_DAY;
         if (dayOrWeek.equals("tygodnie"))
-            numberOfRepeats = numberOfRepeats*7;
+            numberOfRepeats = numberOfRepeats * 7;
 
         Showings.addShowing(idMovie, idRoom, format, start, end);
 
+        boolean movieIsPlaying = false;
+        boolean movieAdded = false;
+        String warning = "W sali nr " + idRoom + " w dniu ";
         for (int i = 0; i < numberOfRepeats; i++) {
-            start.setTime(start.getTime() +  timeInterval);
-            end.setTime(end.getTime() +  timeInterval);
+            start.setTime(start.getTime() + timeInterval);
+            end.setTime(end.getTime() + timeInterval);
             if (Showings.roomIsFree(idRoom, start, end)) {
                 Showings.addShowing(idMovie, idRoom, format, start, end);
+                movieAdded = true;
             } else {
-                JOptionPane.showMessageDialog(new JFrame(), "W sali nr " + idRoom + " w dniu " +
-                                start.toString().substring(0, 10) + " jest grany film.", "Komunikat",
-                        JOptionPane.INFORMATION_MESSAGE);
+                movieIsPlaying = true;
+                warning = warning + start.toString().substring(0, 10) + ", ";
             }
         }
-        JOptionPane.showMessageDialog(new JFrame(), "Wpisy pomyślnie dodane do bazy danych.", "Komunikat",
-                            JOptionPane.INFORMATION_MESSAGE);
+        if (movieIsPlaying) {
+            JOptionPane.showMessageDialog(new JFrame(), warning + " jest grany film.", "Komunikat",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (movieAdded) {
+            JOptionPane.showMessageDialog(new JFrame(), "Część wpisów została pomyślnie dodana do bazy danych.", "Komunikat",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Wpisy pomyślnie dodane do bazy danych.", "Komunikat",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
