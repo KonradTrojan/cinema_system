@@ -10,13 +10,16 @@ import java.util.ArrayList;
 public abstract class Bookings {
 
     public static void addBooking(int idShowing, int seat, int row) {
+        PreparedStatement statement;
         try {
             Connection connection = DBConn.getConnection();
 
-            PreparedStatement statement = connection.prepareStatement("insert into bookings (idShowing, idUser, row, seat) " + "values(?, 0, ?, ?)");
+            String sql = "INSERT INTO bookings (idShowing,idUser, seat, row_) VALUES (?,?,?,?)";
+            statement = connection.prepareStatement(sql);
 
             statement.setInt(1, idShowing);
-            statement.setInt(2, row);
+            statement.setInt(2, 1);
+            statement.setInt(4, row);
             statement.setInt(3, seat);
 
             statement.executeUpdate();

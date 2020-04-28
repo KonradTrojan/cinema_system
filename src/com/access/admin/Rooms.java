@@ -104,8 +104,6 @@ public abstract class Rooms {
     }
 
     public static void addRoom(int idRoom, int numOfRows, int numOfSeats){
-
-
         Connection connection;
         PreparedStatement statement = null;
         try {
