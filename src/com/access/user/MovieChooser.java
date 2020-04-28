@@ -125,7 +125,8 @@ public class MovieChooser {
         chooseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(chooseButton.movieId);
+                ShowingChooser x = new ShowingChooser(chooseButton.movieId);
+                mainFrame.setVisible(false);
             }
         });
     }

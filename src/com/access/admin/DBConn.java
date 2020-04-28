@@ -15,7 +15,6 @@ public abstract class DBConn {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String appVersion = databaseProps.getProperty("hostname");
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(

@@ -101,6 +101,7 @@ public class SeatChooser {
         for(int i=0; i<bookings.size(); i++) {
             //sala.setStanMiejsca(new Miejsce());
         }
+        sala = new Sala(roomId, Rooms.getNumOfSeats(roomId), Rooms.getNumOfRows(roomId));
         rysuj();
     }
 
@@ -108,7 +109,7 @@ public class SeatChooser {
     private int showingId;
     private ArrayList<Miejsce> wybraneMiejsca = new ArrayList<Miejsce>();
     private JFrame f = new JFrame("Wskaż miejsce");
-    private Sala sala = new Sala(roomId, Rooms.getNumOfSeats(roomId), Rooms.getNumOfRows(roomId));
+    private Sala sala;
 
     private void rysuj() {
         f.setLayout(new GridBagLayout());
@@ -226,6 +227,8 @@ public class SeatChooser {
 
         f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         f.pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        f.setBounds(screenSize.width / 2 - (f.getWidth() / 2), (screenSize.height / 2) - 700 / 2, f.getWidth(), f.getHeight());
         f.setVisible(true);
         c = null;
     }
