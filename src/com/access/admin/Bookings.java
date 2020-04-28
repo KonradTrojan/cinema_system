@@ -12,7 +12,7 @@ public abstract class Bookings {
         try {
             Connection con = DBConn.getConnection();
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT row FROM bookings WHERE idBooking=" + id);
+            ResultSet rs = stmt.executeQuery("SELECT row_ FROM bookings WHERE idBooking=" + id);
             int row = 0;
             if (rs.next()) {
                 row = rs.getInt("row");
