@@ -44,7 +44,7 @@ public abstract class Bookings {
         try {
             Connection connection = DBConn.getConnection();
             
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO bookings (idShowing, idUser, row, seat) " +
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO bookings (idShowing, idUser, row_, seat) " +
                     "values(?,?,?,?)");
 
             statement.setInt(1, idShowing);
