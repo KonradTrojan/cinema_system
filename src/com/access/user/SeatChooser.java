@@ -97,11 +97,11 @@ public class SeatChooser {
     SeatChooser(int showingId) {
         this.showingId = showingId;
         roomId = Showings.getRoomId(showingId);
+        sala = new Sala(roomId, Rooms.getNumOfSeats(roomId), Rooms.getNumOfRows(roomId));
         ArrayList<Integer> bookings = Bookings.getAllBookings(showingId);
         for(int i=0; i<bookings.size(); i++) {
-            //sala.setStanMiejsca(new Miejsce());
+            sala.setStanMiejsca(new Miejsce(Bookings.getSeat(bookings.get(i)), Bookings.getRow(bookings.get(i)), true));
         }
-        sala = new Sala(roomId, Rooms.getNumOfSeats(roomId), Rooms.getNumOfRows(roomId));
         rysuj();
     }
 

@@ -8,19 +8,49 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class Bookings {
-
+    public static int getRow(int id) {
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT row FROM bookings WHERE idBooking=" + id);
+            int row = 0;
+            if (rs.next()) {
+                row = rs.getInt("row");
+            }
+            stmt.close();
+            return row;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public static int getSeat(int id) {
+        try {
+            Connection con = DBConn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT seat FROM bookings WHERE idBooking=" + id);
+            int seat = 0;
+            if (rs.next()) {
+                seat = rs.getInt("seat");
+            }
+            stmt.close();
+            return seat;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public static void addBooking(int idShowing, int seat, int row) {
-        PreparedStatement statement;
         try {
             Connection connection = DBConn.getConnection();
-
-            String sql = "INSERT INTO bookings (idShowing,idUser, seat, row_) VALUES (?,?,?,?)";
-            statement = connection.prepareStatement(sql);
+            
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO bookings (idShowing, idUser, row, seat) " +
+                    "values(?,?,?,?)");
 
             statement.setInt(1, idShowing);
-            statement.setInt(2, 1);
-            statement.setInt(4, row);
-            statement.setInt(3, seat);
+            statement.setInt(2, 0);
+            statement.setInt(3, row);
+            statement.setInt(4, seat);
 
             statement.executeUpdate();
             statement.close();

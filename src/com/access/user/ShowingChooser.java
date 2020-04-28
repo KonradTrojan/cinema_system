@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -35,7 +36,8 @@ public class ShowingChooser{
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            return cal.get(Calendar.DAY_OF_MONTH) + "." + cal.get(Calendar.MONTH) + "." + cal.get(Calendar.YEAR) + ", godz. " + cal.get(Calendar.HOUR) + ':' + cal.get(Calendar.MINUTE);
+            //return cal.get(Calendar.DAY_OF_MONTH) + "." + cal.get(Calendar.MONTH) + "." + cal.get(Calendar.YEAR) + ", godz. " + cal.get(Calendar.HOUR) + ':' + cal.get(Calendar.MINUTE);
+            return new SimpleDateFormat("MM.dd.yyyy HH:mm").format(date);
         }
     }
 
