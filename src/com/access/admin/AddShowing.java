@@ -37,7 +37,7 @@ public class AddShowing extends JFrame{
     private static final int DEFAULT_HEIGHT = 300;
 
     public AddShowing(){
-        ToolsGUI.setSizeJFrame(AddShowing.this,mainAddShow,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie filmóe");
+        ToolsGUI.setSizeJFrame(AddShowing.this,mainAddShow,DEFAULT_WIDTH,DEFAULT_HEIGHT,"Dodawanie filmów");
         loadData();
 
         CancButt.addActionListener(new ActionListener() {
@@ -197,8 +197,8 @@ public class AddShowing extends JFrame{
             timeInterval = MILISECONDS_IN_WEEK;
 
         for (int i = 0; i < numberOfRepeats; i++) {
-            start.setTime(start.getTime() + i * timeInterval);
-            end.setTime(end.getTime() + i * timeInterval);
+            start.setTime(start.getTime() +  timeInterval);
+            end.setTime(end.getTime() +  timeInterval);
             if (Showings.roomIsFree(idRoom, start, end)) {
                 Showings.addShowing(idMovie, idRoom, format, start, end);
             } else {
@@ -209,5 +209,11 @@ public class AddShowing extends JFrame{
         }
         JOptionPane.showMessageDialog(new JFrame(), "Wpisy pomyślnie dodane do bazy danych.", "Komunikat",
                             JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        String a = "02";
+        int i = Integer.parseInt(a);
+        System.out.println(i);
     }
 }

@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://remotemysql.com:3306/w5NtVBqSWa</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="baza kino" uuid="05556394-6f14-4ea5-b5c5-2ace2d4fa922">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://mysql1.phpmyadmin.prv.pl:3306/1194636_SiG</jdbc-url>
+    </data-source>
   </component>
 </project>
